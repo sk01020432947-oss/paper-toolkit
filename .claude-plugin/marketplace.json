@@ -1,0 +1,15 @@
+{
+  "name": "paper-toolkit",
+  "owner": {
+    "name": "sk01020432947-oss"
+  },
+  "description": "논문 연구·집필 도구 묶음 — 기획·학습·심사·서지(Zotero)·퇴고(humanize/toego)·HWPX·법령·NotebookLM 스킬 15종 + 에이전트 7종",
+  "plugins": [
+    {
+      "name": "paper-toolkit",
+      "source": "./",
+      "description": "논문 스킬 15종(paper-* 3, zotero, ref-toolkit, humanize 3, toego-korean, wiki-recall, weekly-review, korean-law-search, hwpx-mouseco, read-hwp, notebooklm) + humanize 에이전트 7종",
+      "version": "1.0.0"
+    }
+  ]
+}

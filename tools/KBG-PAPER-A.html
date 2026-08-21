@@ -1,0 +1,1435 @@
+<meta charset="utf-8">
+<title>KBG PAPER_A</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;700&family=Noto+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#FAF9F6; --panel:#FFFFFF; --ink:#1B2A33; --sub:#5B6B74; --line:#E3E0D8;
+  --accent:#0E7A6E; --accent-soft:#E4F0EE; --warn:#C25E00; --warn-soft:#F7EADB;
+  --bad:#B3383D; --bad-soft:#F6E3E4; --chip:#EFF2F0; --mono-bg:#F4F6F5; --shadow:0 1px 3px rgba(27,42,51,.08);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12181C; --panel:#1A2229; --ink:#E8EDEF; --sub:#93A3AC; --line:#2B3740;
+    --accent:#3FB9A5; --accent-soft:#173730; --warn:#E08A3C; --warn-soft:#3A2A18;
+    --bad:#E0666B; --bad-soft:#3A2124; --chip:#22303A; --mono-bg:#1F2A32; --shadow:0 1px 3px rgba(0,0,0,.4);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12181C; --panel:#1A2229; --ink:#E8EDEF; --sub:#93A3AC; --line:#2B3740;
+  --accent:#3FB9A5; --accent-soft:#173730; --warn:#E08A3C; --warn-soft:#3A2A18;
+  --bad:#E0666B; --bad-soft:#3A2124; --chip:#22303A; --mono-bg:#1F2A32; --shadow:0 1px 3px rgba(0,0,0,.4);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink)}
+body{font-family:'Pretendard','Noto Sans KR',system-ui,sans-serif;font-size:14.5px;line-height:1.6}
+.mono{font-family:'IBM Plex Mono',Consolas,monospace;font-variant-numeric:tabular-nums}
+header{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;padding:18px 26px 14px;border-bottom:1px solid var(--line);background:var(--panel)}
+.wordmark{font-family:'Noto Serif KR',serif;font-weight:700;font-size:25px;letter-spacing:.5px}
+.wordmark b{color:var(--accent)}
+.tagline{color:var(--sub);font-size:13px}
+.head-actions{margin-left:auto;display:flex;gap:8px}
+.layout{display:grid;grid-template-columns:340px 1fr;gap:0;min-height:calc(100vh - 62px)}
+@media(max-width:900px){.layout{grid-template-columns:1fr}}
+.side{border-right:1px solid var(--line);background:var(--panel);padding:18px 18px 40px;display:flex;flex-direction:column;gap:16px}
+.main{padding:20px 26px 60px;min-width:0}
+.card{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:14px 16px;box-shadow:var(--shadow)}
+.step-label{display:flex;align-items:center;gap:8px;font-weight:700;font-size:14px;margin-bottom:10px}
+.step-num{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;font-size:12px;font-weight:700;flex:none}
+button{font:inherit;cursor:pointer;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;padding:6px 12px}
+button:hover{border-color:var(--accent)}
+button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:700}
+button.primary:hover{filter:brightness(1.06)}
+button.small{padding:3px 9px;font-size:12.5px;border-radius:6px}
+button:disabled{opacity:.45;cursor:not-allowed}
+select,input[type=text],input[type=number],textarea{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px 9px;max-width:100%}
+textarea{width:100%;resize:vertical}
+.hint{color:var(--sub);font-size:12.5px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.chip{padding:2px 9px;border-radius:99px;background:var(--chip);border:1px solid var(--line);font-size:12.5px;cursor:pointer;user-select:none}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.chip.used{opacity:.4;cursor:default}
+.lv-item,.path-item{display:flex;align-items:center;gap:8px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;margin-top:6px;font-size:13px;background:var(--bg)}
+.lv-item .del,.path-item .del{margin-left:auto;border:none;background:none;color:var(--sub);font-size:15px;padding:0 4px}
+.lv-item .del:hover,.path-item .del:hover{color:var(--bad)}
+.lv-name{font-weight:700;color:var(--accent)}
+.row{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:8px}
+.tabs{display:flex;gap:2px;flex-wrap:wrap;border-bottom:2px solid var(--line);margin-bottom:16px}
+.tab{border:none;background:none;padding:8px 14px;font-weight:500;color:var(--sub);border-bottom:2px solid transparent;margin-bottom:-2px;border-radius:0}
+.tab.on{color:var(--accent);border-bottom-color:var(--accent);font-weight:700}
+.section-title{font-family:'Noto Serif KR',serif;font-size:20px;font-weight:700;margin:22px 0 8px}
+.section-title:first-child{margin-top:0}
+table.res{border-collapse:collapse;width:auto;min-width:60%;font-size:13px;background:var(--panel)}
+table.res th,table.res td{border:1px solid var(--line);padding:5px 10px;text-align:center}
+table.res th{background:var(--chip);font-weight:700}
+table.res td.l{text-align:left}
+.tbl-wrap{overflow-x:auto;margin:6px 0 4px}
+.num{font-family:'IBM Plex Mono',Consolas,monospace;font-variant-numeric:tabular-nums}
+.j-ok{color:var(--accent);font-weight:700}
+.j-warn{color:var(--warn);font-weight:700}
+.j-bad{color:var(--bad);font-weight:700}
+.interp{background:var(--accent-soft);border-radius:8px;padding:9px 13px;font-size:13px;margin:8px 0 4px;max-width:78ch}
+.interp::before{content:'해석';display:block;font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--accent);margin-bottom:2px}
+.tbl-head{display:flex;align-items:center;gap:10px;margin-top:14px}
+.tbl-head h4{font-size:14px}
+.empty{color:var(--sub);padding:60px 0;text-align:center}
+.empty .big{font-family:'Noto Serif KR',serif;font-size:22px;color:var(--ink);margin-bottom:8px}
+#progressWrap{display:none;margin-top:10px}
+.pbar{height:8px;border-radius:99px;background:var(--chip);overflow:hidden}
+.pbar>div{height:100%;width:100%;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .15s}
+@media (prefers-reduced-motion: reduce){.pbar>div{transition:none}}
+.badge{display:inline-block;padding:1px 8px;border-radius:99px;font-size:11.5px;font-weight:700}
+.badge.ok{background:var(--accent-soft);color:var(--accent)}
+.badge.warn{background:var(--warn-soft);color:var(--warn)}
+.badge.bad{background:var(--bad-soft);color:var(--bad)}
+.preview-table{font-size:12px;border-collapse:collapse}
+.preview-table th,.preview-table td{border:1px solid var(--line);padding:2px 7px;white-space:nowrap}
+.preview-table th{background:var(--chip)}
+.notice{font-size:12.5px;color:var(--sub);display:flex;gap:6px;align-items:center}
+.diagram-box{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:10px;overflow-x:auto}
+.report-body{max-width:80ch}
+.report-body p{margin:8px 0}
+.report-body h3{font-family:'Noto Serif KR',serif;margin:18px 0 6px;font-size:15.5px}
+footer{padding:14px 26px;color:var(--sub);font-size:12px;border-top:1px solid var(--line)}
+a{color:var(--accent)}
+@media print{.side,header .head-actions,.tabs{display:none}}
+</style>
+
+<header>
+  <div class="wordmark">KBG <b>PAPER_A</b></div>
+  <div class="tagline">PLS 구조방정식 원클릭 분석기 · 데이터는 이 브라우저 밖으로 나가지 않습니다</div>
+  <div class="head-actions">
+    <button class="small" id="btnSaveProj">프로젝트 저장</button>
+    <button class="small" id="btnLoadProj">프로젝트 열기</button>
+    <input type="file" id="fileProj" accept=".json" hidden>
+  </div>
+</header>
+
+<div class="layout">
+<aside class="side">
+
+  <div class="card">
+    <div class="step-label"><span class="step-num">1</span>데이터</div>
+    <div class="row">
+      <button id="btnCsv">CSV 파일 열기</button>
+      <button id="btnPaste">붙여넣기</button>
+      <button id="btnDemo">예제 데이터</button>
+      <input type="file" id="fileCsv" accept=".csv,.txt,.tsv" hidden>
+    </div>
+    <div id="pasteBox" style="display:none;margin-top:8px">
+      <textarea id="pasteArea" rows="5" placeholder="엑셀에서 범위를 복사한 뒤 여기에 붙여넣으세요 (첫 줄 = 변수명)"></textarea>
+      <div class="row"><button class="small primary" id="btnPasteApply">불러오기</button></div>
+    </div>
+    <div id="dataInfo" class="hint" style="margin-top:8px">아직 데이터가 없습니다. 엑셀에서 복사→붙여넣기도 됩니다.</div>
+  </div>
+
+  <div class="card">
+    <div class="step-label"><span class="step-num">2</span>측정모형 — 잠재변수</div>
+    <div class="row">
+      <input type="text" id="lvName" placeholder="잠재변수 이름 (예: 소진)" style="flex:1;min-width:120px">
+      <button class="small primary" id="btnAddLv">추가</button>
+    </div>
+    <div class="hint" style="margin-top:6px">아래에서 측정문항을 클릭해 선택한 뒤 [추가]. 또는</div>
+    <div class="row"><button class="small" id="btnAutoLv">문항 이름으로 자동 구성</button></div>
+    <div class="chips" id="indChips"></div>
+    <div id="lvList"></div>
+  </div>
+
+  <div class="card">
+    <div class="step-label"><span class="step-num">3</span>구조모형 — 경로</div>
+    <div class="row">
+      <select id="pathFrom"></select><span>→</span><select id="pathTo"></select>
+      <button class="small primary" id="btnAddPath">추가</button>
+    </div>
+    <div id="pathList"></div>
+    <div style="border-top:1px dashed var(--line);margin-top:12px;padding-top:10px">
+      <div style="font-weight:700;font-size:13px">조절효과 (선택)</div>
+      <div class="row">
+        <select id="modX" title="독립변수"></select><span>×</span>
+        <select id="modW" title="조절변수"></select><span>→</span>
+        <select id="modTo" title="결과변수"></select>
+        <button class="small" id="btnAddMod">추가</button>
+      </div>
+      <div id="modList"></div>
+    </div>
+    <div style="border-top:1px dashed var(--line);margin-top:12px;padding-top:10px">
+      <div style="font-weight:700;font-size:13px">다집단 분석 (선택)</div>
+      <div class="row">
+        <select id="groupCol"><option value="">집단 변수 없음</option></select>
+      </div>
+      <div class="hint">성별 등 두 집단 변수를 고르면 경로계수 차이를 순열검정으로 비교합니다.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="step-label"><span class="step-num">4</span>분석 실행</div>
+    <div class="row">
+      <label>부트스트랩 <select id="optB"><option>100</option><option selected>500</option><option>1000</option><option>2000</option></select>회</label>
+      <label>순열 <select id="optP"><option>100</option><option selected>200</option><option>500</option></select>회</label>
+    </div>
+    <div class="row" style="margin-top:10px">
+      <button class="primary" id="btnRun" style="flex:1;padding:9px">분석 실행 — 한 번에 전부</button>
+    </div>
+    <div id="progressWrap"><div class="pbar"><div id="pbarFill"></div></div><div class="hint" id="progressMsg" style="margin-top:4px"></div></div>
+    <div class="hint" id="runMsg" style="margin-top:8px"></div>
+  </div>
+
+</aside>
+
+<main class="main">
+  <div id="emptyState" class="empty">
+    <div class="big">모형을 설정하고 [분석 실행]을 누르면<br>논문에 필요한 모든 결과가 한 번에 나옵니다</div>
+    처음이라면 왼쪽에서 <b>예제 데이터</b> → <b>문항 이름으로 자동 구성</b> → 경로 추가 → 실행 순서로 체험해 보세요.<br>
+    측정모형 평가 · 판별타당도 · 경로계수(부트스트랩) · R²/f²/Q²/VIF · 매개/조절/다집단 · 국문 결과 서술까지.
+  </div>
+
+  <div id="results" style="display:none">
+    <div class="tabs" id="resTabs"></div>
+    <div class="row" style="margin-bottom:12px">
+      <button class="small" id="btnExcel">전체 결과 → Excel</button>
+      <button class="small" id="btnWord">전체 결과 → Word</button>
+      <span class="hint">각 표의 [복사] 버튼으로 HWP/Word에 표 그대로 붙여넣기 가능</span>
+    </div>
+    <div id="tabPanes"></div>
+  </div>
+</main>
+</div>
+
+<footer>KBG PAPER_A · PLS-SEM (path weighting, Mode A reflective) · 부트스트랩 백분위 CI · Q²는 재추정 생략 근사(redundancy) · 통계적 판단의 최종 책임은 연구자에게 있습니다.</footer>
+
+<script>/* KBG PAPER_A — PLS-SEM engine (browser + node) */
+(function (g) {
+  'use strict';
+
+  // ---------- basic stats ----------
+  function mean(a) { let s = 0; for (let i = 0; i < a.length; i++) s += a[i]; return s / a.length; }
+  function sdSample(a) {
+    const m = mean(a); let s = 0;
+    for (let i = 0; i < a.length; i++) { const d = a[i] - m; s += d * d; }
+    return Math.sqrt(s / (a.length - 1));
+  }
+  function standardize(a) {
+    const m = mean(a), s = sdSample(a) || 1e-12;
+    const out = new Array(a.length);
+    for (let i = 0; i < a.length; i++) out[i] = (a[i] - m) / s;
+    return out;
+  }
+  function pearson(x, y) {
+    const n = x.length, mx = mean(x), my = mean(y);
+    let sxy = 0, sxx = 0, syy = 0;
+    for (let i = 0; i < n; i++) { const a = x[i] - mx, b = y[i] - my; sxy += a * b; sxx += a * a; syy += b * b; }
+    const d = Math.sqrt(sxx * syy);
+    return d < 1e-12 ? 0 : sxy / d;
+  }
+  function normCdf(z) {
+    // Zelen & Severo approximation
+    const t = 1 / (1 + 0.2316419 * Math.abs(z));
+    const d = 0.3989422804014327 * Math.exp(-z * z / 2);
+    let p = d * t * (0.319381530 + t * (-0.356563782 + t * (1.781477937 + t * (-1.821255978 + t * 1.330274429))));
+    return z > 0 ? 1 - p : p;
+  }
+  function pFromT(t) { return Math.min(1, 2 * (1 - normCdf(Math.abs(t)))); }
+
+  // ---------- matrix ----------
+  function matInv(A) {
+    const n = A.length;
+    const M = A.map((r, i) => r.concat(Array.from({ length: n }, (_, j) => (i === j ? 1 : 0))));
+    for (let c = 0; c < n; c++) {
+      let piv = c;
+      for (let r = c + 1; r < n; r++) if (Math.abs(M[r][c]) > Math.abs(M[piv][c])) piv = r;
+      if (Math.abs(M[piv][c]) < 1e-12) return null;
+      if (piv !== c) { const t = M[piv]; M[piv] = M[c]; M[c] = t; }
+      const p = M[c][c];
+      for (let j = 0; j < 2 * n; j++) M[c][j] /= p;
+      for (let r = 0; r < n; r++) {
+        if (r === c) continue;
+        const f = M[r][c];
+        if (f === 0) continue;
+        for (let j = 0; j < 2 * n; j++) M[r][j] -= f * M[c][j];
+      }
+    }
+    return M.map(r => r.slice(n));
+  }
+  function corrMat(cols) {
+    const k = cols.length;
+    const R = Array.from({ length: k }, () => new Array(k).fill(1));
+    for (let i = 0; i < k; i++) for (let j = i + 1; j < k; j++) {
+      R[i][j] = R[j][i] = pearson(cols[i], cols[j]);
+    }
+    return R;
+  }
+  // standardized OLS: betas = Rxx^-1 rxy ; inputs standardized
+  function olsStd(predCols, yCol) {
+    const R = corrMat(predCols);
+    const inv = matInv(R);
+    if (!inv) return null;
+    const r = predCols.map(p => pearson(p, yCol));
+    const betas = inv.map(row => row.reduce((s, v, i) => s + v * r[i], 0));
+    let r2 = 0;
+    for (let i = 0; i < betas.length; i++) r2 += betas[i] * r[i];
+    return { betas, r2, vif: inv.map(row => row[betas.length ? inv.indexOf(row) : 0]) };
+  }
+
+  // ---------- core PLS (path weighting scheme, Mode A reflective) ----------
+  // Z: {colName: standardizedArray}; model: {lvs:[{name,indicators:[]}], paths:[{from,to}]}
+  function plsCore(Z, model) {
+    const lvs = model.lvs, paths = model.paths;
+    const lvIdx = {}; lvs.forEach((lv, i) => { lvIdx[lv.name] = i; });
+    const n = Z[lvs[0].indicators[0]].length;
+    const preds = {}, succs = {};
+    lvs.forEach(lv => { preds[lv.name] = []; succs[lv.name] = []; });
+    paths.forEach(p => { preds[p.to].push(p.from); succs[p.from].push(p.to); });
+
+    // init weights
+    let W = lvs.map(lv => lv.indicators.map(() => 1));
+    let scores = lvs.map((lv, j) => calcScore(lv, W[j]));
+
+    function calcScore(lv, w) {
+      const s = new Array(n).fill(0);
+      lv.indicators.forEach((ind, k) => {
+        const z = Z[ind];
+        for (let i = 0; i < n; i++) s[i] += w[k] * z[i];
+      });
+      const st = standardize(s);
+      // sign convention: positive corr with unweighted sum
+      const raw = new Array(n).fill(0);
+      lv.indicators.forEach(ind => { const z = Z[ind]; for (let i = 0; i < n; i++) raw[i] += z[i]; });
+      if (pearson(st, raw) < 0) { for (let i = 0; i < n; i++) st[i] = -st[i]; for (let k = 0; k < w.length; k++) w[k] = -w[k]; }
+      return st;
+    }
+
+    let iter = 0, converged = false;
+    for (iter = 1; iter <= 300; iter++) {
+      // inner weights (path scheme)
+      const inner = lvs.map(() => ({}));
+      lvs.forEach((lv, j) => {
+        const pr = preds[lv.name];
+        if (pr.length) {
+          const res = olsStd(pr.map(p => scores[lvIdx[p]]), scores[j]);
+          const betas = res ? res.betas : pr.map(p => pearson(scores[lvIdx[p]], scores[j]));
+          pr.forEach((p, i) => { inner[j][p] = betas[i]; });
+        }
+        succs[lv.name].forEach(sName => {
+          inner[j][sName] = pearson(scores[j], scores[lvIdx[sName]]);
+        });
+      });
+      // inner proxies
+      const proxy = lvs.map((lv, j) => {
+        const t = new Array(n).fill(0);
+        let any = false;
+        Object.keys(inner[j]).forEach(nb => {
+          const e = inner[j][nb], sc = scores[lvIdx[nb]];
+          any = true;
+          for (let i = 0; i < n; i++) t[i] += e * sc[i];
+        });
+        return any ? standardize(t) : scores[j];
+      });
+      // outer weights Mode A
+      const Wnew = lvs.map((lv, j) => lv.indicators.map(ind => pearson(Z[ind], proxy[j])));
+      let delta = 0;
+      lvs.forEach((lv, j) => lv.indicators.forEach((ind, k) => {
+        delta = Math.max(delta, Math.abs(Math.abs(Wnew[j][k]) - Math.abs(W[j][k])));
+      }));
+      W = Wnew;
+      scores = lvs.map((lv, j) => calcScore(lv, W[j]));
+      if (delta < 1e-7 && iter > 1) { converged = true; break; }
+    }
+
+    // loadings
+    const loadings = {};
+    lvs.forEach((lv, j) => {
+      loadings[lv.name] = {};
+      lv.indicators.forEach(ind => { loadings[lv.name][ind] = pearson(Z[ind], scores[j]); });
+    });
+    const scoreMap = {};
+    lvs.forEach((lv, j) => { scoreMap[lv.name] = scores[j]; });
+    return { scores: scoreMap, loadings, preds, converged, iterations: iter };
+  }
+
+  // ---------- full estimation (base + two-stage interactions) ----------
+  // model: {lvs, paths, interactions:[{x,w,to}]}
+  function estimate(Z, model) {
+    const core = plsCore(Z, model);
+    const scores = core.scores;
+    // interaction scores (two-stage)
+    const intTerms = (model.interactions || []).map(it => {
+      const name = it.x + '×' + it.w;
+      const prod = scores[it.x].map((v, i) => v * scores[it.w][i]);
+      return { name, to: it.to, x: it.x, w: it.w, score: standardize(prod) };
+    });
+    // structural regressions per endogenous LV
+    const endo = {};
+    model.paths.forEach(p => { (endo[p.to] = endo[p.to] || []).push(p.from); });
+    const pathRes = []; const R2 = {}; const structural = {};
+    Object.keys(endo).forEach(toName => {
+      const predNames = endo[toName].slice();
+      const predCols = predNames.map(pn => scores[pn]);
+      intTerms.filter(t => t.to === toName).forEach(t => { predNames.push(t.name); predCols.push(t.score); });
+      const res = olsStd(predCols, scores[toName]);
+      if (!res) return;
+      R2[toName] = res.r2;
+      structural[toName] = { predNames, predCols, betas: res.betas };
+      predNames.forEach((pn, i) => pathRes.push({ from: pn, to: toName, beta: res.betas[i] }));
+    });
+    return { core, scores, loadings: core.loadings, paths: pathRes, R2, structural, intTerms, converged: core.converged, iterations: core.iterations };
+  }
+
+  // ---------- measurement quality ----------
+  function measurementQuality(Z, model, est) {
+    const out = {};
+    model.lvs.forEach(lv => {
+      const k = lv.indicators.length;
+      const lams = lv.indicators.map(ind => est.loadings[lv.name][ind]);
+      const sumL = lams.reduce((s, l) => s + l, 0);
+      const sumL2 = lams.reduce((s, l) => s + l * l, 0);
+      const sumE = lams.reduce((s, l) => s + (1 - l * l), 0);
+      const cr = (sumL * sumL) / ((sumL * sumL) + sumE);
+      const ave = sumL2 / k;
+      let alpha = null;
+      if (k > 1) {
+        const R = corrMat(lv.indicators.map(ind => Z[ind]));
+        let rsum = 0, cnt = 0;
+        for (let i = 0; i < k; i++) for (let j = i + 1; j < k; j++) { rsum += R[i][j]; cnt++; }
+        const rbar = rsum / cnt;
+        alpha = (k * rbar) / (1 + (k - 1) * rbar);
+      }
+      out[lv.name] = { alpha, cr, ave, k };
+    });
+    return out;
+  }
+  function fornellLarcker(model, est, quality) {
+    const names = model.lvs.map(l => l.name);
+    const M = names.map(a => names.map(b =>
+      a === b ? Math.sqrt(quality[a].ave) : pearson(est.scores[a], est.scores[b])
+    ));
+    return { names, M };
+  }
+  function htmt(Z, model) {
+    const names = model.lvs.map(l => l.name);
+    const indOf = {}; model.lvs.forEach(l => { indOf[l.name] = l.indicators; });
+    function meanCorr(indsA, indsB, same) {
+      let s = 0, c = 0;
+      for (let i = 0; i < indsA.length; i++) {
+        for (let j = same ? i + 1 : 0; j < indsB.length; j++) {
+          s += pearson(Z[indsA[i]], Z[indsB[j]]); c++;
+        }
+      }
+      return c ? s / c : 0;
+    }
+    const M = names.map(() => names.map(() => null));
+    for (let a = 0; a < names.length; a++) {
+      for (let b = 0; b < a; b++) {
+        const hetero = meanCorr(indOf[names[a]], indOf[names[b]], false);
+        const monoA = meanCorr(indOf[names[a]], indOf[names[a]], true);
+        const monoB = meanCorr(indOf[names[b]], indOf[names[b]], true);
+        const denom = Math.sqrt(Math.abs(monoA * monoB));
+        M[a][b] = denom > 1e-12 ? Math.abs(hetero) / denom : null;
+      }
+    }
+    return { names, M };
+  }
+  // f2 + inner VIF per endogenous
+  function structuralQuality(est) {
+    const f2 = []; const vif = [];
+    Object.keys(est.structural).forEach(toName => {
+      const { predNames, predCols } = est.structural[toName];
+      const y = est.scores[toName];
+      const full = olsStd(predCols, y);
+      if (!full) return;
+      const R = corrMat(predCols);
+      const inv = matInv(R);
+      predNames.forEach((pn, i) => {
+        if (inv) vif.push({ from: pn, to: toName, vif: inv[i][i] });
+        if (predCols.length > 1) {
+          const subCols = predCols.filter((_, j) => j !== i);
+          const sub = olsStd(subCols, y);
+          if (sub) f2.push({ from: pn, to: toName, f2: (full.r2 - sub.r2) / Math.max(1e-9, 1 - full.r2) });
+        } else {
+          f2.push({ from: pn, to: toName, f2: full.r2 / Math.max(1e-9, 1 - full.r2) });
+        }
+      });
+    });
+    return { f2, vif };
+  }
+  // Q2: cross-validated redundancy, no re-estimation (approximation)
+  // ponytail: full blindfolding would re-estimate per omission round; redundancy approx is deterministic and close
+  function q2Redundancy(Z, model, est) {
+    const out = {};
+    Object.keys(est.structural).forEach(toName => {
+      const lv = model.lvs.find(l => l.name === toName);
+      if (!lv) return;
+      const { predNames, predCols, betas } = est.structural[toName];
+      const n = est.scores[toName].length;
+      const shat = new Array(n).fill(0);
+      predNames.forEach((pn, i) => {
+        for (let r = 0; r < n; r++) shat[r] += betas[i] * predCols[i][r];
+      });
+      let sse = 0, sso = 0;
+      lv.indicators.forEach(ind => {
+        const lam = est.loadings[toName][ind], z = Z[ind];
+        for (let r = 0; r < n; r++) {
+          const p = lam * shat[r];
+          sse += (z[r] - p) * (z[r] - p);
+          sso += z[r] * z[r];
+        }
+      });
+      out[toName] = 1 - sse / sso;
+    });
+    return out;
+  }
+
+  // ---------- indirect effects ----------
+  function indirectEffects(model, pathBetas) {
+    // graph of direct paths only (skip interaction terms)
+    const beta = {};
+    pathBetas.forEach(p => { beta[p.from + '>' + p.to] = p.beta; });
+    const adj = {};
+    model.paths.forEach(p => { (adj[p.from] = adj[p.from] || []).push(p.to); });
+    const lvNames = model.lvs.map(l => l.name);
+    const results = [];
+    lvNames.forEach(src => {
+      const stack = [[src, [src]]];
+      while (stack.length) {
+        const [node, trail] = stack.pop();
+        (adj[node] || []).forEach(nxt => {
+          if (trail.includes(nxt)) return;
+          const t2 = trail.concat(nxt);
+          if (t2.length >= 3) {
+            let prod = 1;
+            for (let i = 0; i < t2.length - 1; i++) prod *= (beta[t2[i] + '>' + t2[i + 1]] || 0);
+            results.push({ from: src, to: nxt, via: t2.slice(1, -1), path: t2, effect: prod });
+          }
+          stack.push([nxt, t2]);
+        });
+      }
+    });
+    return results;
+  }
+
+  // ---------- bootstrap ----------
+  // dataCols: {col: rawArray}; returns per-resample stats via collect callback
+  function resampleEstimate(dataCols, usedCols, model, rng) {
+    const n = dataCols[usedCols[0]].length;
+    const idx = new Array(n);
+    for (let i = 0; i < n; i++) idx[i] = Math.floor(rng() * n);
+    const Z = {};
+    let ok = true;
+    usedCols.forEach(c => {
+      const col = new Array(n);
+      const src = dataCols[c];
+      for (let i = 0; i < n; i++) col[i] = src[idx[i]];
+      if (sdSample(col) < 1e-10) ok = false;
+      Z[c] = standardize(col);
+    });
+    if (!ok) return null;
+    return estimate(Z, model);
+  }
+  // sign correction vs original loadings
+  function signMap(model, est, orig) {
+    const s = {};
+    model.lvs.forEach(lv => {
+      let dot = 0;
+      lv.indicators.forEach(ind => { dot += est.loadings[lv.name][ind] * orig.loadings[lv.name][ind]; });
+      s[lv.name] = dot < 0 ? -1 : 1;
+    });
+    (est.intTerms || []).forEach(t => { s[t.name] = (s[t.x] || 1) * (s[t.w] || 1); });
+    return s;
+  }
+  function correctedPaths(model, est, orig) {
+    const s = signMap(model, est, orig);
+    return est.paths.map(p => ({ from: p.from, to: p.to, beta: p.beta * (s[p.from] || 1) * (s[p.to] || 1) }));
+  }
+
+  function summarizeBoot(samples) {
+    // samples: array of numbers
+    const m = mean(samples), se = sdSample(samples) || 1e-12;
+    const sorted = samples.slice().sort((a, b) => a - b);
+    const q = p => sorted[Math.min(sorted.length - 1, Math.max(0, Math.floor(p * sorted.length)))];
+    return { mean: m, se, lo: q(0.025), hi: q(0.975) };
+  }
+
+  // ---------- simple slopes ----------
+  function simpleSlopes(est, interactions) {
+    return (interactions || []).map(it => {
+      const name = it.x + '×' + it.w;
+      const bX = (est.paths.find(p => p.from === it.x && p.to === it.to) || {}).beta || 0;
+      const bInt = (est.paths.find(p => p.from === name && p.to === it.to) || {}).beta || 0;
+      return {
+        x: it.x, w: it.w, to: it.to, term: name, bX, bInt,
+        slopes: [-1, 0, 1].map(l => ({ level: l, slope: bX + bInt * l }))
+      };
+    });
+  }
+
+  // ---------- seeded RNG ----------
+  function mulberry32(seed) {
+    let a = seed >>> 0;
+    return function () {
+      a |= 0; a = (a + 0x6D2B79F5) | 0;
+      let t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  g.KBG = {
+    mean, sdSample, standardize, pearson, normCdf, pFromT, matInv, corrMat, olsStd,
+    plsCore, estimate, measurementQuality, fornellLarcker, htmt, structuralQuality,
+    q2Redundancy, indirectEffects, resampleEstimate, signMap, correctedPaths,
+    summarizeBoot, simpleSlopes, mulberry32
+  };
+})(typeof window !== 'undefined' ? window : globalThis);
+</script>
+<script>
+'use strict';
+const $=s=>document.querySelector(s);
+const K=window.KBG;
+const S={cols:{},headers:[],numeric:[],n:0,lvs:[],paths:[],interactions:[],groupCol:'',res:null};
+
+/* ---------- CSV ---------- */
+function parseDelimited(text){
+  text=text.replace(/^﻿/,'');
+  const firstLine=text.slice(0,text.indexOf('\n')>0?text.indexOf('\n'):text.length);
+  const delim=[['\t',(firstLine.match(/\t/g)||[]).length],[';',(firstLine.match(/;/g)||[]).length],[',',(firstLine.match(/,/g)||[]).length]].sort((a,b)=>b[1]-a[1])[0][0];
+  const rows=[];let cur=[],field='',inQ=false;
+  for(let i=0;i<text.length;i++){
+    const c=text[i];
+    if(inQ){ if(c==='"'){ if(text[i+1]==='"'){field+='"';i++;} else inQ=false; } else field+=c; }
+    else if(c==='"') inQ=true;
+    else if(c===delim){cur.push(field);field='';}
+    else if(c==='\n'||c==='\r'){ if(c==='\r'&&text[i+1]==='\n')i++; cur.push(field);field=''; if(cur.some(f=>f!=='')) rows.push(cur); cur=[]; }
+    else field+=c;
+  }
+  if(field!==''||cur.length){cur.push(field);if(cur.some(f=>f!==''))rows.push(cur);}
+  return rows;
+}
+function loadTable(rows){
+  if(rows.length<2){alert('데이터가 부족합니다. 첫 줄은 변수명이어야 합니다.');return;}
+  const headers=rows[0].map((h,i)=>String(h).trim()||('V'+(i+1)));
+  const cols={};headers.forEach(h=>cols[h]=[]);
+  for(let r=1;r<rows.length;r++) headers.forEach((h,c)=>cols[h].push(rows[r][c]!==undefined?String(rows[r][c]).trim():''));
+  S.headers=headers;S.cols=cols;S.n=rows.length-1;
+  S.numeric=headers.filter(h=>{
+    let num=0,tot=0;
+    cols[h].forEach(v=>{if(v!==''){tot++;if(isFinite(parseFloat(v)))num++;}});
+    return tot>0&&num/tot>0.9;
+  });
+  S.lvs=[];S.paths=[];S.interactions=[];S.groupCol='';S.res=null;
+  renderData();renderLv();renderPaths();hideResults();
+}
+$('#btnCsv').onclick=()=>$('#fileCsv').click();
+$('#fileCsv').onchange=e=>{
+  const f=e.target.files[0];if(!f)return;
+  const rd=new FileReader();
+  rd.onload=()=>loadTable(parseDelimited(rd.result));
+  rd.readAsText(f,'utf-8');
+  e.target.value='';
+};
+$('#btnPaste').onclick=()=>{const b=$('#pasteBox');b.style.display=b.style.display==='none'?'block':'none';};
+$('#btnPasteApply').onclick=()=>{const t=$('#pasteArea').value;if(!t.trim())return;loadTable(parseDelimited(t));$('#pasteBox').style.display='none';};
+
+/* demo data: 사회복지사 소진 모형 */
+$('#btnDemo').onclick=()=>{
+  const rng=K.mulberry32(20260821);
+  const randn=()=>{const u=Math.max(1e-12,rng()),v=rng();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);};
+  const lik=x=>Math.max(1,Math.min(7,Math.round(4+1.2*x)));
+  const H=['JS1','JS2','JS3','JS4','SS1','SS2','SS3','BO1','BO2','BO3','TI1','TI2','TI3','성별','경력년수'];
+  const rows=[H];
+  for(let i=0;i<250;i++){
+    const g=rng()<0.55?'여':'남';
+    const js=randn(),ss=randn();
+    const bo=0.55*js-0.3*ss-0.15*js*ss+0.65*randn();
+    const ti=0.6*bo+0.6*randn();
+    const L=f=>lik(0.85*f+0.5*randn());
+    rows.push([L(js),L(js),L(js),L(js),L(ss),L(ss),L(ss),L(bo),L(bo),L(bo),L(ti),L(ti),L(ti),g,Math.max(0,Math.round(8+4*randn()))]);
+  }
+  loadTable(rows.map(r=>r.map(String)));
+  $('#dataInfo').innerHTML='<b>예제: 사회복지사 소진 연구</b> (n=250) — 직무스트레스(JS)→소진(BO)→이직의도(TI), 사회적지지(SS)가 조절, 성별 집단.<br>'+dataSummaryHtml();
+};
+function dataSummaryHtml(){
+  return `변수 ${S.headers.length}개 · 사례 ${S.n}개 · 수치형 ${S.numeric.length}개`;
+}
+function renderData(){
+  $('#dataInfo').innerHTML='<b>데이터 로드 완료.</b> '+dataSummaryHtml();
+  renderChips();
+}
+
+/* ---------- LV builder ---------- */
+let picked=new Set();
+function usedInds(){const u=new Set();S.lvs.forEach(l=>l.indicators.forEach(i=>u.add(i)));return u;}
+function renderChips(){
+  const box=$('#indChips');box.innerHTML='';
+  const used=usedInds();
+  S.numeric.forEach(h=>{
+    const c=document.createElement('span');
+    c.className='chip'+(picked.has(h)?' on':'')+(used.has(h)?' used':'');
+    c.textContent=h;
+    if(!used.has(h)) c.onclick=()=>{picked.has(h)?picked.delete(h):picked.add(h);renderChips();};
+    box.appendChild(c);
+  });
+}
+$('#btnAddLv').onclick=()=>{
+  const name=$('#lvName').value.trim();
+  if(!name){alert('잠재변수 이름을 입력하세요.');return;}
+  if(S.lvs.some(l=>l.name===name)){alert('같은 이름의 잠재변수가 있습니다.');return;}
+  if(!picked.size){alert('측정문항을 하나 이상 클릭해서 선택하세요.');return;}
+  S.lvs.push({name,indicators:[...picked]});
+  picked=new Set();$('#lvName').value='';
+  renderLv();renderChips();renderPaths();
+};
+$('#btnAutoLv').onclick=()=>{
+  const used=usedInds();
+  const groups={};
+  S.numeric.forEach(h=>{
+    if(used.has(h))return;
+    const m=h.match(/^(.*?)[_\-\s]?\d+$/);
+    if(m&&m[1]){(groups[m[1]]=groups[m[1]]||[]).push(h);}
+  });
+  let added=0;
+  Object.keys(groups).forEach(g=>{
+    if(groups[g].length>=2&&!S.lvs.some(l=>l.name===g)){S.lvs.push({name:g,indicators:groups[g]});added++;}
+  });
+  if(!added)alert('자동 구성할 문항 묶음을 찾지 못했습니다. 문항 이름이 "이름+번호"(예: BO1, BO2) 형태일 때 작동합니다.');
+  renderLv();renderChips();renderPaths();
+};
+function renderLv(){
+  const box=$('#lvList');box.innerHTML='';
+  S.lvs.forEach((lv,i)=>{
+    const d=document.createElement('div');d.className='lv-item';
+    d.innerHTML=`<span class="lv-name">${esc(lv.name)}</span><span class="hint">${lv.indicators.map(esc).join(', ')}</span><button class="del" title="삭제">×</button>`;
+    d.querySelector('.del').onclick=()=>{
+      S.lvs.splice(i,1);
+      S.paths=S.paths.filter(p=>p.from!==lv.name&&p.to!==lv.name);
+      S.interactions=S.interactions.filter(t=>t.x!==lv.name&&t.w!==lv.name&&t.to!==lv.name);
+      renderLv();renderChips();renderPaths();
+    };
+    box.appendChild(d);
+  });
+}
+
+/* ---------- paths & moderation ---------- */
+function fillSelect(sel,items,keep){
+  const old=sel.value;sel.innerHTML='';
+  items.forEach(v=>{const o=document.createElement('option');o.value=o.textContent=v;sel.appendChild(o);});
+  if(keep&&items.includes(old))sel.value=old;
+}
+function renderPaths(){
+  const names=S.lvs.map(l=>l.name);
+  ['pathFrom','pathTo','modX','modW','modTo'].forEach(id=>fillSelect($('#'+id),names,true));
+  const gc=$('#groupCol');const oldg=gc.value;gc.innerHTML='<option value="">집단 변수 없음</option>';
+  S.headers.forEach(h=>{const o=document.createElement('option');o.value=o.textContent=h;gc.appendChild(o);});
+  if([...gc.options].some(o=>o.value===oldg))gc.value=oldg;
+  const pb=$('#pathList');pb.innerHTML='';
+  S.paths.forEach((p,i)=>{
+    const d=document.createElement('div');d.className='path-item';
+    d.innerHTML=`<span>${esc(p.from)} → <b>${esc(p.to)}</b></span><button class="del">×</button>`;
+    d.querySelector('.del').onclick=()=>{S.paths.splice(i,1);renderPaths();};
+    pb.appendChild(d);
+  });
+  const mb=$('#modList');mb.innerHTML='';
+  S.interactions.forEach((t,i)=>{
+    const d=document.createElement('div');d.className='path-item';
+    d.innerHTML=`<span>${esc(t.x)} × ${esc(t.w)} → <b>${esc(t.to)}</b></span><button class="del">×</button>`;
+    d.querySelector('.del').onclick=()=>{S.interactions.splice(i,1);renderPaths();};
+    mb.appendChild(d);
+  });
+}
+$('#btnAddPath').onclick=()=>{
+  const from=$('#pathFrom').value,to=$('#pathTo').value;
+  if(!from||!to)return;
+  if(from===to){alert('같은 변수끼리는 경로를 만들 수 없습니다.');return;}
+  if(S.paths.some(p=>p.from===from&&p.to===to)){alert('이미 있는 경로입니다.');return;}
+  S.paths.push({from,to});
+  if(hasCycle()){S.paths.pop();alert('이 경로를 넣으면 순환(고리)이 생깁니다. PLS 모형은 순환을 허용하지 않습니다.');return;}
+  renderPaths();
+};
+$('#btnAddMod').onclick=()=>{
+  const x=$('#modX').value,w=$('#modW').value,to=$('#modTo').value;
+  if(!x||!w||!to)return;
+  if(x===w||x===to||w===to){alert('독립·조절·결과 변수는 서로 달라야 합니다.');return;}
+  if(S.interactions.some(t=>t.x===x&&t.w===w&&t.to===to)){alert('이미 있는 조절효과입니다.');return;}
+  // auto-add main-effect paths
+  [[x,to],[w,to]].forEach(([f,t])=>{if(!S.paths.some(p=>p.from===f&&p.to===t))S.paths.push({from:f,to:t});});
+  if(hasCycle()){alert('주효과 경로 추가 시 순환이 생겨 조절효과를 넣을 수 없습니다.');S.paths=S.paths.filter(p=>!((p.from===x||p.from===w)&&p.to===to&&!S.interactions.some(t2=>t2.to===to)));return;}
+  S.interactions.push({x,w,to});
+  renderPaths();
+};
+function hasCycle(){
+  const names=S.lvs.map(l=>l.name);
+  const indeg={};names.forEach(nm=>indeg[nm]=0);
+  S.paths.forEach(p=>indeg[p.to]++);
+  const q=names.filter(nm=>indeg[nm]===0);let seen=0;
+  const adj={};S.paths.forEach(p=>{(adj[p.from]=adj[p.from]||[]).push(p.to);});
+  while(q.length){const nd=q.pop();seen++;(adj[nd]||[]).forEach(nx=>{if(--indeg[nx]===0)q.push(nx);});}
+  return seen<names.length;
+}
+
+/* ---------- run ---------- */
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function fx(v,d=3){return (v===null||v===undefined||!isFinite(v))?'–':v.toFixed(d);}
+function stars(p){return p<0.001?'***':p<0.01?'**':p<0.05?'*':'';}
+async function tick(msg,frac){
+  $('#progressWrap').style.display='block';
+  $('#pbarFill').style.transform='scaleX('+frac.toFixed(3)+')';
+  $('#progressMsg').textContent=msg;
+  await new Promise(r=>setTimeout(r,0));
+}
+$('#btnRun').onclick=async()=>{
+  if(!S.n){alert('먼저 데이터를 불러오세요.');return;}
+  if(S.lvs.length<2){alert('잠재변수를 2개 이상 만드세요.');return;}
+  if(!S.paths.length){alert('경로를 1개 이상 추가하세요.');return;}
+  const lonely=S.lvs.filter(l=>!S.paths.some(p=>p.from===l.name||p.to===l.name));
+  if(lonely.length&&!confirm('경로에 연결되지 않은 잠재변수가 있습니다: '+lonely.map(l=>l.name).join(', ')+'\n이대로 진행할까요?'))return;
+  $('#btnRun').disabled=true;$('#runMsg').textContent='';
+  try{ await runAll(); }
+  catch(err){ console.error(err);$('#runMsg').innerHTML='<span class="j-bad">분석 중 오류: '+esc(err.message)+'</span>'; }
+  $('#btnRun').disabled=false;
+  $('#progressWrap').style.display='none';
+};
+async function runAll(){
+  const model={lvs:S.lvs,paths:S.paths,interactions:S.interactions};
+  const used=S.lvs.flatMap(l=>l.indicators);
+  // listwise deletion
+  const keep=[];
+  for(let i=0;i<S.n;i++){
+    let ok=true;
+    for(const c of used){const v=parseFloat(S.cols[c][i]);if(!isFinite(v)){ok=false;break;}}
+    if(S.groupColSel()&&ok){ if(S.cols[S.groupColSel()][i]==='')ok=false; }
+    if(ok)keep.push(i);
+  }
+  if(keep.length<30) throw new Error('결측 제외 후 사례가 '+keep.length+'개뿐입니다(최소 30 권장).');
+  const raw={};used.forEach(c=>{raw[c]=keep.map(i=>parseFloat(S.cols[c][i]));});
+  const Z={};used.forEach(c=>{Z[c]=K.standardize(raw[c]);});
+
+  await tick('모형 추정 중…',0.02);
+  const est=K.estimate(Z,model);
+  if(!est.converged) throw new Error('PLS 알고리즘이 수렴하지 않았습니다. 문항/모형 구성을 확인하세요.');
+  const quality=K.measurementQuality(Z,model,est);
+  const fl=K.fornellLarcker(model,est,quality);
+  const ht=K.htmt(Z,model);
+  const sq=K.structuralQuality(est);
+  const q2=K.q2Redundancy(Z,model,est);
+  const indirect=K.indirectEffects(model,est.paths);
+
+  // bootstrap
+  const B=parseInt($('#optB').value,10);
+  const rng=K.mulberry32(1234567);
+  const pathSamp={};est.paths.forEach(p=>pathSamp[p.from+'>'+p.to]=[]);
+  const loadSamp={};model.lvs.forEach(l=>l.indicators.forEach(ind=>loadSamp[l.name+'>'+ind]=[]));
+  let failed=0;
+  for(let b=0;b<B;b++){
+    if(b%20===0)await tick(`부트스트랩 ${b}/${B}…`,0.05+0.6*(b/B));
+    const e2=K.resampleEstimate(raw,used,model,rng);
+    if(!e2){failed++;continue;}
+    const sm=K.signMap(model,e2,est);
+    K.correctedPaths(model,e2,est).forEach(p=>{const k2=p.from+'>'+p.to;if(pathSamp[k2])pathSamp[k2].push(p.beta);});
+    model.lvs.forEach(l=>l.indicators.forEach(ind=>loadSamp[l.name+'>'+ind].push(e2.loadings[l.name][ind]*sm[l.name])));
+  }
+  const bootPath={};Object.keys(pathSamp).forEach(k2=>{if(pathSamp[k2].length>10)bootPath[k2]=K.summarizeBoot(pathSamp[k2]);});
+  const bootLoad={};Object.keys(loadSamp).forEach(k2=>{if(loadSamp[k2].length>10)bootLoad[k2]=K.summarizeBoot(loadSamp[k2]);});
+  // indirect bootstrap from path samples
+  const bootInd=indirect.map(e=>{
+    const L=Math.min(...e.path.slice(0,-1).map((_,i)=>pathSamp[e.path[i]+'>'+e.path[i+1]].length));
+    const samp=[];
+    for(let i2=0;i2<L;i2++){let pr=1;for(let j=0;j<e.path.length-1;j++)pr*=pathSamp[e.path[j]+'>'+e.path[j+1]][i2];samp.push(pr);}
+    return samp.length>10?K.summarizeBoot(samp):null;
+  });
+  // simple slopes bootstrap
+  const slopes=K.simpleSlopes(est,S.interactions);
+  const bootSlopes=slopes.map(sl=>{
+    const kx=sl.x+'>'+sl.to,ki=sl.term+'>'+sl.to;
+    const L=Math.min(pathSamp[kx].length,pathSamp[ki].length);
+    return [-1,0,1].map(lev=>{
+      const samp=[];for(let i2=0;i2<L;i2++)samp.push(pathSamp[kx][i2]+pathSamp[ki][i2]*lev);
+      return samp.length>10?K.summarizeBoot(samp):null;
+    });
+  });
+
+  // MGA
+  let mga=null;
+  const gcol=S.groupColSel();
+  if(gcol){
+    await tick('다집단 분석 준비…',0.68);
+    const gvals=keep.map(i=>S.cols[gcol][i]);
+    const freq={};gvals.forEach(v=>freq[v]=(freq[v]||0)+1);
+    const top=Object.keys(freq).sort((a,b)=>freq[b]-freq[a]).slice(0,2);
+    if(top.length<2) throw new Error('집단 변수 "'+gcol+'"의 값이 한 종류뿐입니다.');
+    const idxA=[],idxB=[];
+    gvals.forEach((v,i)=>{if(v===top[0])idxA.push(i);else if(v===top[1])idxB.push(i);});
+    if(idxA.length<30||idxB.length<30) $('#runMsg').innerHTML='<span class="j-warn">경고: 집단 크기가 30 미만이라 다집단 결과 해석에 주의가 필요합니다.</span>';
+    function estOn(idx){
+      const Z2={};used.forEach(c=>{Z2[c]=K.standardize(idx.map(i=>raw[c][i]));});
+      return K.estimate(Z2,model);
+    }
+    const eA=estOn(idxA),eB=estOn(idxB);
+    const pathsA=K.correctedPaths(model,eA,est),pathsB=K.correctedPaths(model,eB,est);
+    const obsDiff={};est.paths.forEach(p=>{
+      const k2=p.from+'>'+p.to;
+      const a=(pathsA.find(q3=>q3.from===p.from&&q3.to===p.to)||{}).beta;
+      const b2=(pathsB.find(q3=>q3.from===p.from&&q3.to===p.to)||{}).beta;
+      obsDiff[k2]={a,b:b2,diff:a-b2,count:0};
+    });
+    const P=parseInt($('#optP').value,10);
+    const all=idxA.concat(idxB),nA=idxA.length;
+    let permDone=0;
+    for(let p2=0;p2<P;p2++){
+      if(p2%10===0)await tick(`순열검정 ${p2}/${P}…`,0.7+0.28*(p2/P));
+      const sh=all.slice();
+      for(let i=sh.length-1;i>0;i--){const j=Math.floor(rng()*(i+1));const t2=sh[i];sh[i]=sh[j];sh[j]=t2;}
+      try{
+        const pA=K.correctedPaths(model,estOn(sh.slice(0,nA)),est);
+        const pB=K.correctedPaths(model,estOn(sh.slice(nA)),est);
+        est.paths.forEach(p3=>{
+          const k2=p3.from+'>'+p3.to;
+          const a=(pA.find(q3=>q3.from===p3.from&&q3.to===p3.to)||{}).beta||0;
+          const b2=(pB.find(q3=>q3.from===p3.from&&q3.to===p3.to)||{}).beta||0;
+          if(Math.abs(a-b2)>=Math.abs(obsDiff[k2].diff))obsDiff[k2].count++;
+        });
+        permDone++;
+      }catch(e3){}
+    }
+    Object.keys(obsDiff).forEach(k2=>{obsDiff[k2].p=permDone?( (obsDiff[k2].count+1)/(permDone+1) ):null;});
+    mga={col:gcol,groups:top,nA:idxA.length,nB:idxB.length,diff:obsDiff,P:permDone};
+  }
+
+  await tick('결과 정리 중…',0.99);
+  S.res={model,n:keep.length,dropped:S.n-keep.length,est,quality,fl,ht,sq,q2,indirect,bootPath,bootLoad,bootInd,slopes,bootSlopes,mga,B:B-failed,used};
+  renderResults();
+}
+S.groupColSel=()=>$('#groupCol').value||'';
+
+/* ---------- rendering results ---------- */
+const TABS=[['diagram','모형도'],['meas','측정모형'],['disc','판별타당도'],['struct','구조모형'],['effect','효과분해'],['mod','조절효과'],['mga','다집단'],['report','결과 서술']];
+let curTab='diagram';
+function hideResults(){$('#results').style.display='none';$('#emptyState').style.display='block';}
+function renderResults(){
+  $('#emptyState').style.display='none';$('#results').style.display='block';
+  const tabs=$('#resTabs');tabs.innerHTML='';
+  TABS.forEach(([id,label])=>{
+    if(id==='mod'&&!S.interactions.length)return;
+    if(id==='mga'&&!S.res.mga)return;
+    const b=document.createElement('button');b.className='tab'+(curTab===id?' on':'');b.textContent=label;
+    b.onclick=()=>{curTab=id;renderResults();};
+    tabs.appendChild(b);
+  });
+  if((curTab==='mod'&&!S.interactions.length)||(curTab==='mga'&&!S.res.mga))curTab='diagram';
+  const pane=$('#tabPanes');pane.innerHTML='';
+  pane.appendChild(PANES[curTab]());
+  $('#runMsg').innerHTML='<span class="j-ok">분석 완료</span> — n='+S.res.n+(S.res.dropped?(' (결측 '+S.res.dropped+'행 제외)'):'')+', 부트스트랩 '+S.res.B+'회, '+S.res.est.iterations+'회 반복 수렴';
+}
+function el(html){const d=document.createElement('div');d.innerHTML=html;return d;}
+function tblHead(title,tableId){
+  return `<div class="tbl-head"><h4>${title}</h4><button class="small" onclick="copyTable('${tableId}')">복사</button></div>`;
+}
+window.copyTable=async function(id){
+  const t=document.getElementById(id);if(!t)return;
+  const html='<meta charset="utf-8">'+t.outerHTML;
+  const text=[...t.rows].map(r=>[...r.cells].map(c=>c.textContent).join('\t')).join('\n');
+  try{
+    await navigator.clipboard.write([new ClipboardItem({'text/html':new Blob([html],{type:'text/html'}),'text/plain':new Blob([text],{type:'text/plain'})})]);
+  }catch(e){ try{await navigator.clipboard.writeText(text);}catch(e2){alert('복사가 차단되었습니다.');return;} }
+  const btn=event&&event.target;if(btn){const o=btn.textContent;btn.textContent='복사됨!';setTimeout(()=>btn.textContent=o,1200);}
+};
+function judge(v,okCond,warnCond){return okCond?'<span class="j-ok">충족</span>':(warnCond?'<span class="j-warn">주의</span>':'<span class="j-bad">미충족</span>');}
+
+const PANES={
+  diagram(){
+    const d=el(`<div class="section-title">연구모형과 경로계수</div>
+      <div class="row" style="margin-bottom:8px"><button class="small" id="btnPng">PNG로 저장</button>
+      <span class="hint">실선 = 직접 경로, 점선 = 상호작용항. * p&lt;.05, ** p&lt;.01, *** p&lt;.001. 괄호 안은 R².</span></div>
+      <div class="diagram-box" id="diagBox"></div>`);
+    d.querySelector('#diagBox').appendChild(buildDiagram());
+    d.querySelector('#btnPng').onclick=downloadPng;
+    return d;
+  },
+  meas(){
+    const R=S.res;let rows='';
+    R.model.lvs.forEach(lv=>lv.indicators.forEach(ind=>{
+      const lam=R.est.loadings[lv.name][ind];
+      const bs=R.bootLoad[lv.name+'>'+ind];
+      const t=bs?lam/bs.se:null,p=t!==null?K.pFromT(t):null;
+      rows+=`<tr><td class="l">${esc(lv.name)}</td><td class="l">${esc(ind)}</td><td class="num">${fx(lam)}</td><td class="num">${t!==null?fx(t,2):'–'}</td><td class="num">${p!==null?fx(p):'–'}</td><td>${lam>=0.708?'<span class="j-ok">양호</span>':lam>=0.4?'<span class="j-warn">보통</span>':'<span class="j-bad">낮음</span>'}</td></tr>`;
+    }));
+    let rows2='';
+    R.model.lvs.forEach(lv=>{
+      const q=R.quality[lv.name];
+      rows2+=`<tr><td class="l">${esc(lv.name)}</td><td class="num">${q.k}</td><td class="num">${q.alpha!==null?fx(q.alpha):'–'}</td><td class="num">${fx(q.cr)}</td><td class="num">${fx(q.ave)}</td><td>${judge(q.cr>=0.7&&q.ave>=0.5,(q.cr>=0.6&&q.ave>=0.4))}</td></tr>`;
+    });
+    const low=[];R.model.lvs.forEach(lv=>lv.indicators.forEach(ind=>{if(R.est.loadings[lv.name][ind]<0.708)low.push(ind);}));
+    const allOk=R.model.lvs.every(lv=>R.quality[lv.name].cr>=0.7&&R.quality[lv.name].ave>=0.5);
+    return el(`<div class="section-title">측정모형 평가</div>
+      ${tblHead('외부적재량 (Outer Loadings)','tbl-load')}
+      <div class="tbl-wrap"><table class="res" id="tbl-load"><tr><th>잠재변수</th><th>문항</th><th>적재량</th><th>t</th><th>p</th><th>판정</th></tr>${rows}</table></div>
+      <div class="interp">기준: 적재량 0.708 이상이면 양호(문항 분산의 50% 이상 설명), 0.4~0.708은 CR·AVE가 충족되면 유지 가능, 0.4 미만은 제거를 검토합니다.${low.length?` 현재 <b>${low.map(esc).join(', ')}</b> 문항이 0.708 미만입니다.`:' 모든 문항이 기준을 충족합니다.'}</div>
+      ${tblHead('신뢰도와 집중타당도','tbl-rel')}
+      <div class="tbl-wrap"><table class="res" id="tbl-rel"><tr><th>잠재변수</th><th>문항 수</th><th>Cronbach α</th><th>CR(ρc)</th><th>AVE</th><th>판정</th></tr>${rows2}</table></div>
+      <div class="interp">기준: α ≥ 0.7, CR ≥ 0.7(내적 일관성), AVE ≥ 0.5(집중타당도). ${allOk?'모든 잠재변수가 기준을 충족하여 측정모형의 신뢰도와 집중타당도가 확보되었습니다.':'일부 변수가 기준에 미달합니다. 적재량이 낮은 문항 제거를 검토하세요.'}</div>`);
+  },
+  disc(){
+    const R=S.res,names=R.fl.names;
+    let h1='<tr><th></th>'+names.map(n2=>'<th>'+esc(n2)+'</th>').join('')+'</tr>';
+    let b1='';
+    names.forEach((nm,i)=>{
+      b1+='<tr><td class="l"><b>'+esc(nm)+'</b></td>'+names.map((_,j)=>{
+        if(j>i)return'<td></td>';
+        const v=R.fl.M[i][j];return'<td class="num">'+(i===j?'<b>'+fx(v)+'</b>':fx(v))+'</td>';
+      }).join('')+'</tr>';
+    });
+    let flOk=true;
+    names.forEach((nm,i)=>names.forEach((n2,j)=>{if(i!==j&&Math.abs(R.fl.M[i][j])>=R.fl.M[i][i])flOk=false;}));
+    let b2='',htMax=0;
+    names.forEach((nm,i)=>{
+      b2+='<tr><td class="l"><b>'+esc(nm)+'</b></td>'+names.map((_,j)=>{
+        if(j>=i)return'<td></td>';
+        const v=R.ht.M[i][j];if(v!==null&&v>htMax)htMax=v;
+        const cls=v===null?'':v<0.85?' class="num"':v<0.9?' class="num j-warn"':' class="num j-bad"';
+        return `<td${cls}>${v===null?'':fx(v)}</td>`;
+      }).join('')+'</tr>';
+    });
+    return el(`<div class="section-title">판별타당도</div>
+      ${tblHead('Fornell-Larcker 기준 (대각선 = √AVE)','tbl-fl')}
+      <div class="tbl-wrap"><table class="res" id="tbl-fl">${h1}${b1}</table></div>
+      <div class="interp">각 잠재변수의 √AVE(굵은 대각선)가 다른 변수와의 상관보다 커야 합니다. ${flOk?'모든 변수가 기준을 충족합니다.':'<b>기준 미충족 변수가 있습니다.</b> 개념적으로 겹치는 변수가 없는지 검토하세요.'}</div>
+      ${tblHead('HTMT (Heterotrait-Monotrait Ratio)','tbl-htmt')}
+      <div class="tbl-wrap"><table class="res" id="tbl-htmt">${h1}${b2}</table></div>
+      <div class="interp">기준: HTMT &lt; 0.85(엄격) 또는 &lt; 0.90(관대). 현재 최댓값 ${fx(htMax)} — ${htMax<0.85?'엄격 기준까지 충족하여 판별타당도가 확보되었습니다.':htMax<0.9?'관대 기준은 충족하나 0.85를 넘는 쌍이 있어 해석에 주의가 필요합니다.':'기준을 초과하는 쌍이 있어 판별타당도가 의심됩니다.'}</div>`);
+  },
+  struct(){
+    const R=S.res;let rows='';
+    R.est.paths.forEach(p=>{
+      const bs=R.bootPath[p.from+'>'+p.to];
+      const t=bs?p.beta/bs.se:null,pv=t!==null?K.pFromT(t):null;
+      rows+=`<tr><td class="l">${esc(p.from)} → ${esc(p.to)}</td><td class="num">${fx(p.beta)}</td><td class="num">${bs?fx(bs.se):'–'}</td><td class="num">${t!==null?fx(t,2):'–'}</td><td class="num">${pv!==null?fx(pv):'–'}${pv!==null?'<b>'+stars(pv)+'</b>':''}</td><td class="num">[${bs?fx(bs.lo):'–'}, ${bs?fx(bs.hi):'–'}]</td><td>${pv!==null?(pv<0.05?'<span class="j-ok">유의</span>':'<span class="j-bad">비유의</span>'):'–'}</td></tr>`;
+    });
+    let rows2='';
+    Object.keys(R.est.R2).forEach(nm=>{
+      const r2=R.est.R2[nm],q2v=R.q2[nm];
+      rows2+=`<tr><td class="l">${esc(nm)}</td><td class="num">${fx(r2)}</td><td class="num">${fx(1-(1-r2)*((R.n-1)/(R.n-Object.keys(R.est.structural[nm].predNames).length-1)))}</td><td>${r2>=0.75?'상당함':r2>=0.5?'중간':r2>=0.25?'약함':'매우 약함'}</td><td class="num">${q2v!==undefined?fx(q2v):'–'}</td><td>${q2v!==undefined?(q2v>0?'<span class="j-ok">예측력 있음</span>':'<span class="j-bad">예측력 없음</span>'):'–'}</td></tr>`;
+    });
+    let rows3='';
+    R.sq.f2.forEach(f=>{
+      const v=R.sq.vif.find(x=>x.from===f.from&&x.to===f.to);
+      rows3+=`<tr><td class="l">${esc(f.from)} → ${esc(f.to)}</td><td class="num">${fx(f.f2)}</td><td>${f.f2>=0.35?'큼':f.f2>=0.15?'중간':f.f2>=0.02?'작음':'미미'}</td><td class="num">${v?fx(v.vif,2):'–'}</td><td>${v?(v.vif<3.3?'<span class="j-ok">양호</span>':v.vif<5?'<span class="j-warn">수용</span>':'<span class="j-bad">공선성 의심</span>'):'–'}</td></tr>`;
+    });
+    const sig=R.est.paths.filter(p=>{const bs=R.bootPath[p.from+'>'+p.to];return bs&&K.pFromT(p.beta/bs.se)<0.05;}).length;
+    return el(`<div class="section-title">구조모형 평가</div>
+      ${tblHead('경로계수 (부트스트랩 '+R.B+'회)','tbl-path')}
+      <div class="tbl-wrap"><table class="res" id="tbl-path"><tr><th>경로</th><th>β</th><th>SE</th><th>t</th><th>p</th><th>95% CI</th><th>판정</th></tr>${rows}</table></div>
+      <div class="interp">전체 ${R.est.paths.length}개 경로 중 ${sig}개가 유의수준 .05에서 유의합니다. 95% 신뢰구간이 0을 포함하지 않으면 유의한 것으로 해석합니다.</div>
+      ${tblHead('설명력과 예측력 (R² · Q²)','tbl-r2')}
+      <div class="tbl-wrap"><table class="res" id="tbl-r2"><tr><th>내생변수</th><th>R²</th><th>adj. R²</th><th>수준</th><th>Q²</th><th>판정</th></tr>${rows2}</table></div>
+      <div class="interp">R² 기준(Hair et al.): 0.75 상당함 / 0.50 중간 / 0.25 약함. Q² &gt; 0이면 모형이 해당 내생변수에 예측적 적합성을 가집니다. (Q²는 redundancy 근사값)</div>
+      ${tblHead('효과크기와 공선성 (f² · 내부 VIF)','tbl-f2')}
+      <div class="tbl-wrap"><table class="res" id="tbl-f2"><tr><th>경로</th><th>f²</th><th>효과크기</th><th>VIF</th><th>공선성</th></tr>${rows3}</table></div>
+      <div class="interp">f² 기준(Cohen): 0.02 작음 / 0.15 중간 / 0.35 큼. 내부 VIF는 3.3 미만이면 이상적, 5 미만이면 수용 가능합니다.</div>`);
+  },
+  effect(){
+    const R=S.res;
+    if(!R.indirect.length)return el('<div class="section-title">효과분해</div><div class="hint">매개 구조(2단계 이상 경로)가 없어 간접효과가 없습니다.</div>');
+    let rows='';
+    R.indirect.forEach((e,i)=>{
+      const bs=R.bootInd[i];
+      const t=bs?e.effect/bs.se:null,pv=t!==null?K.pFromT(t):null;
+      const sig=bs&&(bs.lo>0||bs.hi<0);
+      rows+=`<tr><td class="l">${e.path.map(esc).join(' → ')}</td><td class="num">${fx(e.effect)}</td><td class="num">${bs?fx(bs.se):'–'}</td><td class="num">${pv!==null?fx(pv):'–'}${pv!==null?'<b>'+stars(pv)+'</b>':''}</td><td class="num">[${bs?fx(bs.lo):'–'}, ${bs?fx(bs.hi):'–'}]</td><td>${bs?(sig?'<span class="j-ok">유의</span>':'<span class="j-bad">비유의</span>'):'–'}</td></tr>`;
+    });
+    // totals
+    const agg={};
+    R.indirect.forEach((e,i)=>{const k2=e.from+'>'+e.to;(agg[k2]=agg[k2]||{from:e.from,to:e.to,ind:0}).ind+=e.effect;});
+    let rows2='';
+    Object.values(agg).forEach(a=>{
+      const dp=R.est.paths.find(p=>p.from===a.from&&p.to===a.to);
+      const direct=dp?dp.beta:0;
+      rows2+=`<tr><td class="l">${esc(a.from)} → ${esc(a.to)}</td><td class="num">${dp?fx(direct):'없음'}</td><td class="num">${fx(a.ind)}</td><td class="num">${fx(direct+a.ind)}</td><td class="l">${dp?(Math.abs(direct)>0.01?'부분매개 가능성':'완전매개 가능성'):'간접효과만 존재'}</td></tr>`;
+    });
+    return el(`<div class="section-title">효과분해 — 매개효과</div>
+      ${tblHead('특정 간접효과 (부트스트랩)','tbl-ind')}
+      <div class="tbl-wrap"><table class="res" id="tbl-ind"><tr><th>경로</th><th>효과</th><th>SE</th><th>p</th><th>95% CI</th><th>판정</th></tr>${rows}</table></div>
+      <div class="interp">부트스트랩 95% 신뢰구간이 0을 포함하지 않으면 간접효과(매개효과)가 유의합니다.</div>
+      ${tblHead('직접·간접·총효과','tbl-tot')}
+      <div class="tbl-wrap"><table class="res" id="tbl-tot"><tr><th>관계</th><th>직접효과</th><th>간접효과 합</th><th>총효과</th><th>비고</th></tr>${rows2}</table></div>
+      <div class="interp">직접효과가 유의하지 않고 간접효과만 유의하면 완전매개, 둘 다 유의하면 부분매개로 해석하는 것이 일반적입니다(정확한 판단은 직접효과의 유의성 표를 함께 참고).</div>`);
+  },
+  mod(){
+    const R=S.res;const d=el('<div class="section-title">조절효과 — 상호작용항과 심플 슬로프</div>');
+    R.slopes.forEach((sl,si)=>{
+      const bsInt=R.bootPath[sl.term+'>'+sl.to];
+      const tInt=bsInt?sl.bInt/bsInt.se:null,pInt=tInt!==null?K.pFromT(tInt):null;
+      let rows='';
+      const labels=['저집단 (−1SD)','평균 (0)','고집단 (+1SD)'];
+      sl.slopes.forEach((s2,i)=>{
+        const bs=R.bootSlopes[si][i];
+        const t=bs?s2.slope/bs.se:null,pv=t!==null?K.pFromT(t):null;
+        rows+=`<tr><td class="l">${labels[i]}</td><td class="num">${fx(s2.slope)}</td><td class="num">${bs?fx(bs.se):'–'}</td><td class="num">${pv!==null?fx(pv):'–'}${pv!==null?'<b>'+stars(pv)+'</b>':''}</td><td>${pv!==null?(pv<0.05?'<span class="j-ok">유의</span>':'<span class="j-bad">비유의</span>'):'–'}</td></tr>`;
+      });
+      const sec=el(`<div class="tbl-head"><h4>${esc(sl.term)} → ${esc(sl.to)} &nbsp; <span class="badge ${pInt!==null&&pInt<0.05?'ok':'bad'}">상호작용 β=${fx(sl.bInt)}, p=${pInt!==null?fx(pInt):'–'}</span></h4><button class="small" onclick="copyTable('tbl-slope${si}')">복사</button></div>
+        <div class="tbl-wrap"><table class="res" id="tbl-slope${si}"><tr><th>조절변수 수준</th><th>단순기울기</th><th>SE</th><th>p</th><th>판정</th></tr>${rows}</table></div>
+        <div id="slopeChart${si}"></div>
+        <div class="interp">${pInt!==null&&pInt<0.05
+          ?`상호작용항이 유의하므로 <b>${esc(sl.w)}</b>의 수준에 따라 ${esc(sl.x)}가 ${esc(sl.to)}에 미치는 영향의 크기가 달라집니다. 위 심플 슬로프로 어느 집단에서 효과가 강한지 확인하세요.`
+          :`상호작용항이 유의하지 않습니다. 심플 슬로프가 모든 수준에서 비슷하다면 ${esc(sl.w)}의 조절효과는 없다고 해석합니다(영상 속 JPLS와 같은 판정 논리).`}</div>`);
+      sec.querySelector('#slopeChart'+si).appendChild(slopeChart(sl));
+      d.appendChild(sec);
+    });
+    return d;
+  },
+  mga(){
+    const R=S.res,m=R.mga;
+    let rows='';
+    Object.keys(m.diff).forEach(k2=>{
+      const d2=m.diff[k2];
+      rows+=`<tr><td class="l">${esc(k2.replace('>',' → '))}</td><td class="num">${fx(d2.a)}</td><td class="num">${fx(d2.b)}</td><td class="num">${fx(d2.diff)}</td><td class="num">${d2.p!==null?fx(d2.p):'–'}${d2.p!==null?'<b>'+stars(d2.p)+'</b>':''}</td><td>${d2.p!==null?(d2.p<0.05?'<span class="j-ok">집단차 유의</span>':'차이 없음'):'–'}</td></tr>`;
+    });
+    const anySig=Object.values(m.diff).some(d2=>d2.p!==null&&d2.p<0.05);
+    return el(`<div class="section-title">다집단 분석 (순열검정 ${m.P}회)</div>
+      <div class="hint" style="margin-bottom:6px">집단 변수: <b>${esc(m.col)}</b> — ${esc(m.groups[0])} (n=${m.nA}) vs ${esc(m.groups[1])} (n=${m.nB})</div>
+      ${tblHead('집단 간 경로계수 비교','tbl-mga')}
+      <div class="tbl-wrap"><table class="res" id="tbl-mga"><tr><th>경로</th><th>β (${esc(m.groups[0])})</th><th>β (${esc(m.groups[1])})</th><th>차이</th><th>순열 p</th><th>판정</th></tr>${rows}</table></div>
+      <div class="interp">${anySig?'유의한 집단 간 차이가 발견되었습니다. 해당 경로는 집단 변수의 조절효과가 있다고 해석할 수 있습니다.':`모든 경로에서 ${esc(m.groups[0])}·${esc(m.groups[1])} 간 차이가 유의하지 않습니다. 집단형 조절효과는 없는 것으로 해석합니다.`} (측정 동일성(MICOM) 검증은 포함되지 않은 약식 비교이므로 논문 게재 시 언급이 필요할 수 있습니다.)</div>`);
+  },
+  report(){
+    const html=buildReport();
+    const d=el(`<div class="section-title">논문용 결과 서술 (자동 생성 초안)</div>
+      <div class="row" style="margin-bottom:10px"><button class="small" id="btnCopyReport">서술 전체 복사</button>
+      <span class="hint">그대로 붙여넣은 뒤 연구 맥락에 맞게 다듬어 쓰세요. 수치는 위 표들과 동일합니다.</span></div>
+      <div class="report-body card" id="reportBody">${html}</div>`);
+    d.querySelector('#btnCopyReport').onclick=async(ev)=>{
+      const node=d.querySelector('#reportBody');
+      const text=node.innerText;
+      try{
+        await navigator.clipboard.write([new ClipboardItem({'text/html':new Blob(['<meta charset="utf-8">'+node.innerHTML],{type:'text/html'}),'text/plain':new Blob([text],{type:'text/plain'})})]);
+      }catch(e){try{await navigator.clipboard.writeText(text);}catch(e2){alert('복사가 차단되었습니다.');return;}}
+      ev.target.textContent='복사됨!';setTimeout(()=>ev.target.textContent='서술 전체 복사',1200);
+    };
+    return d;
+  }
+};
+
+/* ---------- report text ---------- */
+function pTxt(p){return p<0.001?'p<.001':'p='+p.toFixed(3).replace('0.','.');}
+function buildReport(){
+  const R=S.res;
+  const parts=[];
+  // measurement
+  const lams=[];R.model.lvs.forEach(lv=>lv.indicators.forEach(ind=>lams.push(R.est.loadings[lv.name][ind])));
+  const aMin=Math.min(...R.model.lvs.filter(l=>R.quality[l.name].alpha!==null).map(l=>R.quality[l.name].alpha));
+  const crMin=Math.min(...R.model.lvs.map(l=>R.quality[l.name].cr));
+  const aveMin=Math.min(...R.model.lvs.map(l=>R.quality[l.name].ave));
+  parts.push(`<h3>1. 측정모형 평가</h3><p>측정모형의 평가 결과, 전체 문항의 외부적재량은 ${fx(Math.min(...lams))}~${fx(Math.max(...lams))}로 나타났다. 각 잠재변수의 Cronbach's α는 최소 ${fx(aMin)}, 합성신뢰도(CR)는 최소 ${fx(crMin)}로 ${crMin>=0.7?'권장 기준(0.7)을 상회하여 내적 일관성이 확보되었다':'일부 변수에서 권장 기준(0.7)에 미달하였다'}. 평균분산추출(AVE)은 최소 ${fx(aveMin)}로 ${aveMin>=0.5?'기준치(0.5)를 상회하여 집중타당도가 확보되었다':'기준치(0.5)에 미달하는 변수가 있어 해석에 주의가 필요하다'}.</p>`);
+  // discriminant
+  let htMax=0;R.ht.names.forEach((_,i)=>R.ht.names.forEach((_,j)=>{const v=R.ht.M[i]&&R.ht.M[i][j];if(v!==null&&v!==undefined&&v>htMax)htMax=v;}));
+  parts.push(`<p>판별타당도 검증 결과, 모든 잠재변수의 √AVE가 변수 간 상관계수보다 ${(function(){let ok=true;R.fl.names.forEach((_,i)=>R.fl.names.forEach((_,j)=>{if(i!==j&&Math.abs(R.fl.M[i][j])>=R.fl.M[i][i])ok=false;}));return ok?'커 Fornell-Larcker 기준을 충족하였고':'크지 않은 경우가 있었으며';})()}, HTMT 최댓값은 ${fx(htMax)}로 ${htMax<0.85?'엄격 기준(0.85)을 하회하여 판별타당도가 확보되었다':htMax<0.9?'관대 기준(0.90)은 충족하였다':'기준(0.90)을 초과하여 판별타당도에 문제가 있는 것으로 나타났다'}.</p>`);
+  // structural
+  const sent=[];
+  R.est.paths.forEach(p=>{
+    const bs=R.bootPath[p.from+'>'+p.to];if(!bs)return;
+    const t=p.beta/bs.se,pv=K.pFromT(t);
+    sent.push(`${p.from}이(가) ${p.to}에 미치는 영향은 ${pv<0.05?'통계적으로 유의하였다':'유의하지 않았다'}(β=${fx(p.beta)}, t=${fx(t,2)}, ${pTxt(pv)})`);
+  });
+  const r2txt=Object.keys(R.est.R2).map(nm=>`${nm}의 R²는 ${fx(R.est.R2[nm])}`).join(', ');
+  parts.push(`<h3>2. 구조모형 평가와 가설검증</h3><p>부트스트래핑(${R.B}회)을 통한 경로계수 검증 결과, ${sent.join('. 또한 ')}. 내생변수의 설명력을 보면 ${r2txt}로 나타났으며, 모든 내생변수의 Q²가 ${Object.values(R.q2).every(v=>v>0)?'0보다 커 모형의 예측적 적합성이 확인되었다':'0보다 크지는 않아 예측적 적합성이 부분적으로만 확인되었다'}.</p>`);
+  // mediation
+  if(R.indirect.length){
+    const msent=R.indirect.map((e,i)=>{
+      const bs=R.bootInd[i];if(!bs)return'';
+      const sig=bs.lo>0||bs.hi<0;
+      return `${e.path.join('→')} 경로의 간접효과는 ${fx(e.effect)}(95% CI [${fx(bs.lo)}, ${fx(bs.hi)}])로 ${sig?'신뢰구간이 0을 포함하지 않아 유의하였다':'신뢰구간이 0을 포함하여 유의하지 않았다'}`;
+    }).filter(Boolean);
+    parts.push(`<h3>3. 매개효과 분석</h3><p>${msent.join('. ')}.</p>`);
+  }
+  // moderation
+  if(R.slopes.length){
+    const msent=R.slopes.map((sl,si)=>{
+      const bs=R.bootPath[sl.term+'>'+sl.to];if(!bs)return'';
+      const t=sl.bInt/bs.se,pv=K.pFromT(t);
+      return `${sl.x}와 ${sl.w}의 상호작용항이 ${sl.to}에 미치는 효과는 ${pv<0.05?'유의하여 조절효과가 확인되었다':'유의하지 않아 조절효과는 확인되지 않았다'}(β=${fx(sl.bInt)}, ${pTxt(pv)})`;
+    }).filter(Boolean);
+    parts.push(`<h3>${R.indirect.length?4:3}. 조절효과 분석</h3><p>${msent.join('. ')}.</p>`);
+  }
+  // mga
+  if(R.mga){
+    const m=R.mga;
+    const sig=Object.entries(m.diff).filter(([k2,d2])=>d2.p!==null&&d2.p<0.05);
+    parts.push(`<h3>다집단 분석</h3><p>${m.col}(${m.groups[0]} n=${m.nA}, ${m.groups[1]} n=${m.nB})에 따른 다집단 분석(순열검정 ${m.P}회) 결과, ${sig.length?sig.map(([k2,d2])=>`${k2.replace('>','→')} 경로에서 유의한 집단 간 차이가 나타났다(Δβ=${fx(d2.diff)}, ${pTxt(d2.p)})`).join('; '):'모든 경로에서 집단 간 차이는 유의하지 않았다'}.</p>`);
+  }
+  parts.push(`<p class="hint">분석: KBG PAPER_A (PLS-SEM, path weighting scheme, 부트스트랩 ${R.B}회, n=${R.n}).</p>`);
+  return parts.join('');
+}
+
+/* ---------- diagram ---------- */
+function diagramLayout(){
+  const R=S.res;
+  const names=R.model.lvs.map(l=>l.name);
+  const intNames=R.est.intTerms.map(t=>t.name);
+  const preds={};names.concat(intNames).forEach(nm=>preds[nm]=[]);
+  R.model.paths.forEach(p=>preds[p.to].push(p.from));
+  const depth={};
+  function dep(nm,seen){
+    if(depth[nm]!==undefined)return depth[nm];
+    if(seen.has(nm))return 0;
+    seen.add(nm);
+    const ps=preds[nm]||[];
+    depth[nm]=ps.length?1+Math.max(...ps.map(p=>dep(p,seen))):0;
+    return depth[nm];
+  }
+  names.forEach(nm=>dep(nm,new Set()));
+  R.est.intTerms.forEach(t=>{depth[t.name]=Math.max(0,(depth[t.to]||1)-1);});
+  const cols={};
+  Object.keys(depth).forEach(nm=>{(cols[depth[nm]]=cols[depth[nm]]||[]).push(nm);});
+  const colKeys=Object.keys(cols).map(Number).sort((a,b)=>a-b);
+  const pos={};
+  const W=170,H=150,PADX=110,PADY=70;
+  let maxRows=0;
+  colKeys.forEach(ck=>{maxRows=Math.max(maxRows,cols[ck].length);});
+  const totalH=maxRows*H+PADY*2-60;
+  colKeys.forEach((ck,ci)=>{
+    const list=cols[ck];
+    list.sort();
+    list.forEach((nm,ri)=>{
+      const y=PADY+(totalH-PADY*2)/2-((list.length-1)/2-ri)*H+30;
+      pos[nm]={x:PADX+ci*(W+120),y};
+    });
+  });
+  const totalW=PADX*2+(colKeys.length-1)*(W+120)+W;
+  return {pos,totalW:Math.max(totalW,520),totalH:Math.max(totalH,240),intNames:new Set(intNames)};
+}
+function buildDiagram(){
+  const R=S.res;
+  const {pos,totalW,totalH,intNames}=diagramLayout();
+  const NS='http://www.w3.org/2000/svg';
+  const svg=document.createElementNS(NS,'svg');
+  svg.setAttribute('viewBox',`0 0 ${totalW} ${totalH}`);
+  svg.setAttribute('width',totalW);svg.setAttribute('id','modelSvg');
+  svg.style.maxWidth='100%';svg.style.height='auto';
+  const ink=getComputedStyle(document.documentElement).getPropertyValue('--ink').trim();
+  const accent=getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+  const panel=getComputedStyle(document.documentElement).getPropertyValue('--panel').trim();
+  const sub=getComputedStyle(document.documentElement).getPropertyValue('--sub').trim();
+  svg.style.background=panel;
+  // arrow marker
+  const defs=document.createElementNS(NS,'defs');
+  defs.innerHTML=`<marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="${ink}"/></marker>`;
+  svg.appendChild(defs);
+  const RX=76,RY=32;
+  function edgePoint(from,to){
+    const dx=to.x-from.x,dy=to.y-from.y;
+    const ang=Math.atan2(dy,dx);
+    return {x1:from.x+RX*Math.cos(ang)*0.98,y1:from.y+RY*Math.sin(ang)*0.98,
+            x2:to.x-RX*Math.cos(ang)*1.05,y2:to.y-RY*Math.sin(ang)*1.05};
+  }
+  // edges
+  R.est.paths.forEach(p=>{
+    const f=pos[p.from],t=pos[p.to];if(!f||!t)return;
+    const {x1,y1,x2,y2}=edgePoint(f,t);
+    const line=document.createElementNS(NS,'line');
+    line.setAttribute('x1',x1);line.setAttribute('y1',y1);line.setAttribute('x2',x2);line.setAttribute('y2',y2);
+    line.setAttribute('stroke',ink);line.setAttribute('stroke-width','1.6');line.setAttribute('marker-end','url(#arr)');
+    if(intNames.has(p.from))line.setAttribute('stroke-dasharray','5 4');
+    svg.appendChild(line);
+    const bs=S.res.bootPath[p.from+'>'+p.to];
+    const pv=bs?K.pFromT(p.beta/bs.se):null;
+    const label=fx(p.beta)+(pv!==null?stars(pv):'');
+    const mx=(x1+x2)/2,my=(y1+y2)/2;
+    const bg=document.createElementNS(NS,'rect');
+    const tw=label.length*7.4+10;
+    bg.setAttribute('x',mx-tw/2);bg.setAttribute('y',my-11);bg.setAttribute('width',tw);bg.setAttribute('height',18);
+    bg.setAttribute('fill',panel);bg.setAttribute('rx','4');
+    svg.appendChild(bg);
+    const tx=document.createElementNS(NS,'text');
+    tx.setAttribute('x',mx);tx.setAttribute('y',my+3);tx.setAttribute('text-anchor','middle');
+    tx.setAttribute('font-size','12.5');tx.setAttribute('font-weight','700');
+    tx.setAttribute('fill',pv!==null&&pv<0.05?accent:sub);
+    tx.setAttribute('font-family',"'IBM Plex Mono',monospace");
+    tx.textContent=label;
+    svg.appendChild(tx);
+  });
+  // nodes
+  Object.keys(pos).forEach(nm=>{
+    const p=pos[nm];
+    const g=document.createElementNS(NS,'g');
+    const e=document.createElementNS(NS,'ellipse');
+    e.setAttribute('cx',p.x);e.setAttribute('cy',p.y);e.setAttribute('rx',RX);e.setAttribute('ry',RY);
+    e.setAttribute('fill',panel);e.setAttribute('stroke',intNames.has(nm)?sub:ink);e.setAttribute('stroke-width','1.8');
+    if(intNames.has(nm))e.setAttribute('stroke-dasharray','5 4');
+    g.appendChild(e);
+    const r2=R.est.R2[nm];
+    const t1=document.createElementNS(NS,'text');
+    t1.setAttribute('x',p.x);t1.setAttribute('y',r2!==undefined?p.y-2:p.y+5);
+    t1.setAttribute('text-anchor','middle');t1.setAttribute('font-size','13.5');t1.setAttribute('font-weight','700');
+    t1.setAttribute('fill',ink);t1.setAttribute('font-family',"'Pretendard','Noto Sans KR',sans-serif");
+    t1.textContent=nm;
+    g.appendChild(t1);
+    if(r2!==undefined){
+      const t2=document.createElementNS(NS,'text');
+      t2.setAttribute('x',p.x);t2.setAttribute('y',p.y+15);t2.setAttribute('text-anchor','middle');
+      t2.setAttribute('font-size','11.5');t2.setAttribute('fill',accent);
+      t2.setAttribute('font-family',"'IBM Plex Mono',monospace");
+      t2.textContent='(R²='+fx(r2,3)+')';
+      g.appendChild(t2);
+    }
+    svg.appendChild(g);
+  });
+  return svg;
+}
+function downloadPng(){
+  const svg=document.getElementById('modelSvg');if(!svg)return;
+  const xml=new XMLSerializer().serializeToString(svg);
+  const img=new Image();
+  const scale=2;
+  img.onload=()=>{
+    const c=document.createElement('canvas');
+    const w=parseFloat(svg.getAttribute('width')),h=svg.viewBox.baseVal.height;
+    c.width=w*scale;c.height=h*scale;
+    const ctx=c.getContext('2d');
+    ctx.fillStyle=getComputedStyle(document.documentElement).getPropertyValue('--panel').trim();
+    ctx.fillRect(0,0,c.width,c.height);
+    ctx.drawImage(img,0,0,c.width,c.height);
+    c.toBlob(b=>{triggerDownload(URL.createObjectURL(b),'KBG-PAPER-A-모형도.png');});
+  };
+  img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(xml);
+}
+function triggerDownload(url,name){
+  const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();
+  setTimeout(()=>{a.remove();if(url.startsWith('blob:'))URL.revokeObjectURL(url);},400);
+}
+
+/* ---------- simple slope chart ---------- */
+function slopeChart(sl){
+  const NS='http://www.w3.org/2000/svg';
+  const W=420,H=240,P=42;
+  const svg=document.createElementNS(NS,'svg');
+  svg.setAttribute('viewBox',`0 0 ${W} ${H}`);svg.setAttribute('width',W);
+  svg.style.maxWidth='100%';svg.style.height='auto';
+  const ink=getComputedStyle(document.documentElement).getPropertyValue('--ink').trim();
+  const sub=getComputedStyle(document.documentElement).getPropertyValue('--sub').trim();
+  const line=getComputedStyle(document.documentElement).getPropertyValue('--line').trim();
+  const colors=[getComputedStyle(document.documentElement).getPropertyValue('--warn').trim(),sub,getComputedStyle(document.documentElement).getPropertyValue('--accent').trim()];
+  const labels=['W −1SD','W 평균','W +1SD'];
+  // y range from predicted values at x=±2
+  let ymin=1e9,ymax=-1e9;
+  sl.slopes.forEach(s2=>{[-2,2].forEach(x=>{const y=s2.slope*x;ymin=Math.min(ymin,y);ymax=Math.max(ymax,y);});});
+  if(ymax-ymin<0.5){ymax+=0.25;ymin-=0.25;}
+  const sx=x=>P+((x+2)/4)*(W-P-14);
+  const sy=y=>H-P-((y-ymin)/(ymax-ymin))*(H-P-16);
+  // axes
+  const ax=document.createElementNS(NS,'g');
+  ax.innerHTML=`<line x1="${P}" y1="${sy(0)}" x2="${W-14}" y2="${sy(0)}" stroke="${line}"/>
+    <line x1="${sx(0)}" y1="16" x2="${sx(0)}" y2="${H-P}" stroke="${line}"/>
+    <text x="${W/2}" y="${H-8}" text-anchor="middle" font-size="11" fill="${sub}" font-family="'Pretendard','Noto Sans KR',sans-serif">${esc(sl.x)} (표준화)</text>
+    <text x="12" y="${H/2}" font-size="11" fill="${sub}" transform="rotate(-90 12 ${H/2})" text-anchor="middle" font-family="'Pretendard','Noto Sans KR',sans-serif">${esc(sl.to)}</text>`;
+  svg.appendChild(ax);
+  // label y-positions: start at line endpoints, then push apart to avoid overlap
+  const labY=sl.slopes.map(s2=>sy(s2.slope*2)-6);
+  const order=[0,1,2].sort((a,b)=>labY[a]-labY[b]);
+  for(let k2=1;k2<order.length;k2++){
+    const prev=order[k2-1],cur=order[k2];
+    if(labY[cur]-labY[prev]<14)labY[cur]=labY[prev]+14;
+  }
+  sl.slopes.forEach((s2,i)=>{
+    const l2=document.createElementNS(NS,'line');
+    l2.setAttribute('x1',sx(-2));l2.setAttribute('y1',sy(s2.slope*-2));
+    l2.setAttribute('x2',sx(2));l2.setAttribute('y2',sy(s2.slope*2));
+    l2.setAttribute('stroke',colors[i]);l2.setAttribute('stroke-width','2.2');
+    if(i===1)l2.setAttribute('stroke-dasharray','5 4');
+    svg.appendChild(l2);
+    const t2=document.createElementNS(NS,'text');
+    t2.setAttribute('x',sx(2)-4);t2.setAttribute('y',labY[i]);
+    t2.setAttribute('text-anchor','end');t2.setAttribute('font-size','11');t2.setAttribute('font-weight','700');
+    t2.setAttribute('fill',colors[i]);t2.setAttribute('font-family',"'Pretendard','Noto Sans KR',sans-serif");
+    t2.textContent=labels[i]+' ('+fx(s2.slope,2)+')';
+    svg.appendChild(t2);
+  });
+  const box=document.createElement('div');box.className='diagram-box';box.style.margin='8px 0';box.style.maxWidth=W+'px';
+  box.appendChild(svg);
+  return box;
+}
+
+/* ---------- exports ---------- */
+function xmlEsc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function sheetFromTable(name,tbl){
+  let rows='';
+  [...tbl.rows].forEach(r=>{
+    rows+='<Row>'+[...r.cells].map(c=>{
+      const txt=c.textContent.trim();
+      const num=parseFloat(txt);
+      const isNum=/^-?\d+(\.\d+)?$/.test(txt);
+      return `<Cell><Data ss:Type="${isNum?'Number':'String'}">${isNum?num:xmlEsc(txt)}</Data></Cell>`;
+    }).join('')+'</Row>';
+  });
+  return `<Worksheet ss:Name="${xmlEsc(name).slice(0,28)}"><Table>${rows}</Table></Worksheet>`;
+}
+function collectAllTables(){
+  // render every pane offscreen to collect tables
+  const holder=document.createElement('div');holder.style.position='absolute';holder.style.left='-9999px';
+  document.body.appendChild(holder);
+  const sheets=[];
+  TABS.forEach(([id,label])=>{
+    if(id==='diagram'||id==='report')return;
+    if(id==='mod'&&!S.interactions.length)return;
+    if(id==='mga'&&!S.res.mga)return;
+    const pane=PANES[id]();holder.appendChild(pane);
+    pane.querySelectorAll('table.res').forEach((t,i)=>{
+      const h=t.previousElementSibling&&t.parentElement.previousElementSibling?t.parentElement.previousElementSibling.querySelector('h4'):null;
+      sheets.push({name:(h?h.textContent:label+'_'+(i+1)).replace(/[\\\/\?\*\[\]:]/g,' '),tbl:t});
+    });
+  });
+  holder.remove();
+  return sheets;
+}
+$('#btnExcel').onclick=()=>{
+  if(!S.res)return;
+  const sheets=collectAllTables();
+  const xml=`<?xml version="1.0"?><?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+${sheets.map(s2=>sheetFromTable(s2.name,s2.tbl)).join('')}
+</Workbook>`;
+  triggerDownload(URL.createObjectURL(new Blob(['﻿'+xml],{type:'application/vnd.ms-excel'})),'KBG-PAPER-A-결과.xls');
+};
+$('#btnWord').onclick=()=>{
+  if(!S.res)return;
+  const holder=document.createElement('div');holder.style.position='absolute';holder.style.left='-9999px';
+  document.body.appendChild(holder);
+  let body='<h1 style="font-size:16pt">KBG PAPER_A 분석 결과</h1>';
+  TABS.forEach(([id,label])=>{
+    if(id==='diagram')return;
+    if(id==='mod'&&!S.interactions.length)return;
+    if(id==='mga'&&!S.res.mga)return;
+    const pane=PANES[id]();holder.appendChild(pane);
+    body+='<h2 style="font-size:13pt">'+esc(label)+'</h2>'+pane.innerHTML.replace(/<button[^>]*>[^<]*<\/button>/g,'');
+  });
+  holder.remove();
+  const doc=`<html xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><style>
+    body{font-family:'맑은 고딕',sans-serif;font-size:10.5pt}
+    table{border-collapse:collapse}td,th{border:1px solid #888;padding:3pt 8pt;font-size:9.5pt;text-align:center}
+    .interp{background:#f0f5f4;padding:6pt;font-size:9.5pt}
+    .hint,.tbl-head button{display:none}
+  </style></head><body>${body}</body></html>`;
+  triggerDownload(URL.createObjectURL(new Blob(['﻿'+doc],{type:'application/msword'})),'KBG-PAPER-A-결과.doc');
+};
+
+/* ---------- project save/load ---------- */
+$('#btnSaveProj').onclick=()=>{
+  const proj={v:1,headers:S.headers,cols:S.cols,lvs:S.lvs,paths:S.paths,interactions:S.interactions,groupCol:$('#groupCol').value};
+  triggerDownload(URL.createObjectURL(new Blob([JSON.stringify(proj)],{type:'application/json'})),'KBG-PAPER-A-프로젝트.json');
+};
+$('#btnLoadProj').onclick=()=>$('#fileProj').click();
+$('#fileProj').onchange=e=>{
+  const f=e.target.files[0];if(!f)return;
+  const rd=new FileReader();
+  rd.onload=()=>{
+    try{
+      const p=JSON.parse(rd.result);
+      S.headers=p.headers;S.cols=p.cols;S.n=p.headers.length?p.cols[p.headers[0]].length:0;
+      S.numeric=S.headers.filter(h=>{let num=0,tot=0;S.cols[h].forEach(v=>{if(v!==''){tot++;if(isFinite(parseFloat(v)))num++;}});return tot>0&&num/tot>0.9;});
+      S.lvs=p.lvs||[];S.paths=p.paths||[];S.interactions=p.interactions||[];
+      renderData();renderLv();renderPaths();
+      if(p.groupCol)$('#groupCol').value=p.groupCol;
+      hideResults();
+      $('#dataInfo').innerHTML='<b>프로젝트 로드 완료.</b> '+dataSummaryHtml();
+    }catch(err){alert('프로젝트 파일을 읽을 수 없습니다: '+err.message);}
+  };
+  rd.readAsText(f,'utf-8');
+  e.target.value='';
+};
+</script>

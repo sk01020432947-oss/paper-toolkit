@@ -1,0 +1,16 @@
+/* Zotero 하이라이트 색상 동기화 — Stoplight Method
+   빨강=핵심/논쟁, 노랑=난해/인용 후보, 초록=배경/통과 */
+mark[class^="hltr-"] {
+  border-radius: 3px;
+  padding: 0 3px;
+  color: inherit;
+}
+.hltr-red    { background-color: rgba(255, 102, 102, 0.45); }
+.hltr-yellow { background-color: rgba(255, 212,  0, 0.45); }
+.hltr-green  { background-color: rgba( 95, 202, 123, 0.45); }
+.hltr-blue   { background-color: rgba( 46, 170, 220, 0.40); }
+.hltr-purple { background-color: rgba(163, 103, 220, 0.40); }
+.hltr-magenta{ background-color: rgba(230,  76, 170, 0.40); }
+.hltr-orange { background-color: rgba(255, 146,  72, 0.45); }
+.hltr-gray,
+.hltr-grey   { background-color: rgba(140, 140, 140, 0.35); }
