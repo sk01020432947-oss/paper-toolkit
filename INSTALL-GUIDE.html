@@ -118,7 +118,7 @@ cd paper-toolkit
 powershell -ExecutionPolicy Bypass -File .\install.ps1 -SkipSkills</pre>
     <p>그 다음은 아래 <a href="#s4">4단계(ARS·deep-research 플러그인)</a>와 <a href="#s5">5~6단계(수동 설치·API 키)</a>로 이어집니다. 1~3단계는 ZIP 방식일 때만 해당합니다.</p>
   </div>
-  <div class="note">GitHub 저장소에는 라이선스가 확인된 스킬 15종만 들어 있습니다. ZIP에만 있는 것: hwpxskill · kosis-stats · public-data-finder · national-assembly-tracker · deep-research-pro · deep-interview (원 출처 링크는 저장소 README 참고).</div>
+  <div class="note">GitHub 저장소에는 라이선스가 확인된 스킬 19종이 들어 있습니다(v1.1: keris-academic-search·reporting-guideline-router·korean-spell-check·korean-character-count 추가). ZIP에만 있는 것: hwpxskill · kosis-stats · public-data-finder · national-assembly-tracker · deep-research-pro · deep-interview (원 출처 링크는 저장소 README 참고).</div>
 </section>
 
 <section id="s0">
@@ -144,7 +144,7 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1 -SkipSkills</pre>
 ├─ README.md
 ├─ paper-toolkit-inventory.html ← 도구 목록·소개 (먼저 훑어보길 권장)
 ├─ INSTALL-GUIDE.html           ← 이 문서
-├─ skills\   (21개 폴더)        ← Claude Code 스킬
+├─ skills\   (25개 폴더)        ← Claude Code 스킬
 ├─ agents\   (7개 .md)          ← humanize 에이전트
 ├─ tools\    (HTML 2개)         ← PLS-SEM 분석기 + 매뉴얼
 └─ pandoc\   (4개)              ← md→docx Zotero 인용 변환 설정</pre>
@@ -180,7 +180,7 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1 -SkipWinget -Force</pre>
   <div class="card">
     <h3>스크립트가 하는 일 6단계<span class="chip auto">자동</span></h3>
     <ol>
-      <li><b>스킬 21개</b> → <code>~\.claude\skills\</code> 복사. 이미 있는 이름은 건너뜀(<code>-Force</code> 시 덮어씀). 복사하면서 원 제작자 PC 경로(<code>%USERPROFILE%</code>)를 내 계정 경로로 자동 치환</li>
+      <li><b>스킬 25개</b> → <code>~\.claude\skills\</code> 복사. 이미 있는 이름은 건너뜀(<code>-Force</code> 시 덮어씀). 복사하면서 원 제작자 PC 경로(<code>%USERPROFILE%</code>)를 내 계정 경로로 자동 치환</li>
       <li><b>에이전트 7개</b> → <code>~\.claude\agents\</code></li>
       <li><b>분석기·Pandoc 설정·목록 HTML</b> → <code>문서\paper-toolkit\</code></li>
       <li><b>winget</b>: Zotero · Obsidian · Pandoc · Tesseract-OCR · PDF24 · Python 3.12 · Git · Node.js LTS — 설치된 건 자동 건너뜀</li>
@@ -349,6 +349,6 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1 -SkipWinget -Force</pre>
   </div>
 </section>
 
-<footer>paper-toolkit 2026-08-21 · 동봉 문서: README.md · paper-toolkit-inventory.html(도구 소개) · 이 안내서 · 설치 스크립트 install.ps1</footer>
+<footer>paper-toolkit v1.1 · 2026-09-03 · 동봉 문서: 도구 총람(phd-toolkit-guide.html) · 사용 매뉴얼(phd-toolkit-manual.html) · 기술 명세(paper-toolkit-inventory.html) · README.md · install.ps1</footer>
 </main>
 </div>

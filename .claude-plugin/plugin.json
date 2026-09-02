@@ -1,7 +1,7 @@
 {
   "name": "paper-toolkit",
-  "description": "논문 연구·집필 도구 묶음 — 스킬 15종 + humanize 에이전트 7종",
-  "version": "1.0.0",
+  "description": "논문 연구·집필 도구 묶음 — 스킬 19종 + humanize 에이전트 7종",
+  "version": "1.1.0",
   "author": {
     "name": "sk01020432947-oss"
   },

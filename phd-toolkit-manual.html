@@ -1,0 +1,260 @@
+<title>박사논문 도구 사용 매뉴얼</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;700&family=Noto+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#F5F6F8; --surface:#FFFFFF; --ink:#1B2233; --ink-2:#4A5368; --ink-3:#7B8496;
+  --line:#D9DDE5; --accent:#245C4A; --accent-soft:#E3EFE9; --stamp:#A83A26; --stamp-soft:#F7E6E1;
+  --mono-bg:#EEF1F4; --chip:#E8EBF0;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#14181F; --surface:#1C222B; --ink:#E7EAF0; --ink-2:#B4BBC8; --ink-3:#7F889A;
+    --line:#2E3642; --accent:#6FC2A0; --accent-soft:#1F3A30; --stamp:#F08A72; --stamp-soft:#3E2420;
+    --mono-bg:#232A34; --chip:#2A323E;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#14181F; --surface:#1C222B; --ink:#E7EAF0; --ink-2:#B4BBC8; --ink-3:#7F889A;
+  --line:#2E3642; --accent:#6FC2A0; --accent-soft:#1F3A30; --stamp:#F08A72; --stamp-soft:#3E2420;
+  --mono-bg:#232A34; --chip:#2A323E;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans KR",system-ui,sans-serif;font-size:15px;line-height:1.75}
+a{color:var(--accent)}
+.wrap{display:grid;grid-template-columns:230px minmax(0,1fr);gap:40px;max-width:1160px;margin:0 auto;padding:40px 24px 80px}
+@media (max-width:880px){.wrap{grid-template-columns:1fr}.toc{position:static!important}}
+.toc{position:sticky;top:24px;align-self:start;font-size:13px}
+.toc h2{font:700 11px/1 "Noto Sans KR";letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin:16px 0 8px}
+.toc h2:first-child{margin-top:0}
+.toc a{display:block;padding:5px 0;color:var(--ink-2);text-decoration:none;border-left:2px solid var(--line);padding-left:12px}
+.toc a:hover{color:var(--accent);border-color:var(--accent)}
+header{border-bottom:1px solid var(--line);padding-bottom:24px;margin-bottom:28px}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
+h1{font-family:"Noto Serif KR",serif;font-weight:700;font-size:34px;line-height:1.25;margin:8px 0 12px;text-wrap:balance}
+.lead{color:var(--ink-2);max-width:64ch;margin:0}
+section{margin-bottom:46px}
+h2.sec{font-family:"Noto Serif KR",serif;font-size:22px;margin:0 0 4px;padding-top:8px;display:flex;align-items:baseline;gap:12px}
+h2.sec .n{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--accent);font-weight:500}
+.secdesc{color:var(--ink-2);margin:0 0 14px;max-width:72ch}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:18px 20px;margin-bottom:12px}
+.card h3{margin:0 0 8px;font-size:15.5px}
+.card p{margin:0 0 8px;color:var(--ink-2)}
+.card p:last-child{margin-bottom:0}
+.say{font-family:"IBM Plex Mono",monospace;font-size:13px;background:var(--mono-bg);border-radius:4px;padding:10px 14px;margin:8px 0;line-height:1.7;color:var(--ink);overflow-x:auto}
+.say::before{content:"입력 예시";display:block;color:var(--accent);font-size:11px;letter-spacing:.08em;margin-bottom:4px;font-family:"Noto Sans KR"}
+.re{border:1px dashed var(--line);border-radius:4px;padding:10px 14px;margin:8px 0;font-size:13.5px;color:var(--ink-2)}
+.re::before{content:"Claude가 하는 일";display:block;color:var(--ink-3);font-size:11px;letter-spacing:.08em;margin-bottom:4px;font-weight:700}
+pre{font-family:"IBM Plex Mono",monospace;font-size:12.5px;background:var(--mono-bg);border-radius:4px;padding:10px 14px;overflow-x:auto;line-height:1.6;margin:8px 0;color:var(--ink)}
+code{font-family:"IBM Plex Mono",monospace;font-size:12.5px;background:var(--mono-bg);padding:1px 5px;border-radius:3px}
+.chip{display:inline-block;font-size:11px;letter-spacing:.06em;padding:2px 8px;border-radius:3px;background:var(--chip);color:var(--ink-2);font-weight:500;vertical-align:middle;margin-left:6px}
+.chip.t{background:var(--accent-soft);color:var(--accent)}
+.note{border-left:3px solid var(--stamp);background:var(--surface);padding:12px 16px;color:var(--ink-2);font-size:14px;border-radius:0 6px 6px 0;margin:12px 0}
+.tip{border-left:3px solid var(--accent);background:var(--surface);padding:12px 16px;color:var(--ink-2);font-size:14px;border-radius:0 6px 6px 0;margin:12px 0}
+table{border-collapse:collapse;width:100%;font-size:13.5px;background:var(--surface);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+th,td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;color:var(--ink-3);font-weight:700;background:var(--mono-bg)}
+tr:last-child td{border-bottom:0}
+.tblwrap{overflow-x:auto}
+ol,ul{margin:6px 0;padding-left:20px;color:var(--ink-2)}
+li{margin:4px 0}
+footer{color:var(--ink-3);font-size:12.5px;border-top:1px solid var(--line);padding-top:16px}
+</style>
+
+<div class="wrap">
+<nav class="toc">
+  <h2>시작</h2>
+  <a href="#m0">0. 첫 30분</a>
+  <h2>시나리오</h2>
+  <a href="#m1">1. 주제가 안 잡힐 때</a>
+  <a href="#m2">2. 선행연구 수집 주간</a>
+  <a href="#m3">3. 논문 한 편 공부하기</a>
+  <a href="#m4">4. 장(章) 초안 쓰기</a>
+  <a href="#m5">5. 설문 데이터 분석</a>
+  <a href="#m6">6. 퇴고 파이프라인</a>
+  <a href="#m7">7. 투고 전 최종 점검</a>
+  <a href="#m8">8. 심사평 받은 뒤</a>
+  <a href="#m9">9. HWP 제출본 만들기</a>
+  <h2>부록</h2>
+  <a href="#mf">자주 묻는 질문</a>
+</nav>
+
+<main>
+<header>
+  <div class="eyebrow">PhD Paper Toolkit · 사용 매뉴얼</div>
+  <h1>박사논문 도구 사용 매뉴얼</h1>
+  <p class="lead">설치를 마친 뒤(설치 안내서 참고) 실제 연구 상황에서 <b>무엇을 어떻게 입력하고, 무엇이 돌아오는지</b>를 시나리오 9개로 따라 하는 문서입니다. "입력 예시"는 그대로 복사해 써도 되고, 자기 말로 바꿔도 됩니다 — Claude는 명령어가 아니라 말을 알아듣습니다.</p>
+</header>
+
+<section id="m0">
+  <h2 class="sec"><span class="n">00</span>첫 30분 — Claude Code와 인사하기</h2>
+  <div class="card">
+    <h3>① 열기</h3>
+    <p>연구 파일을 모아둘 폴더(예: <code>문서\박사논문</code>)를 만들고, 그 폴더에서 터미널(PowerShell)을 연 뒤 <code>claude</code>를 입력합니다. Claude는 <b>지금 열린 폴더 안의 파일</b>을 읽고 쓸 수 있으므로, 항상 논문 폴더에서 여는 습관을 들이세요.</p>
+  </div>
+  <div class="card">
+    <h3>② 말 걸어보기</h3>
+    <div class="say">내가 설치한 논문 도구들이 뭐가 있는지, 각각 언제 쓰는지 한 화면으로 요약해줘</div>
+    <div class="re">설치된 스킬 목록과 용도를 정리해 보여줍니다. 이 답이 나오면 설치가 성공한 것입니다.</div>
+  </div>
+  <div class="card">
+    <h3>③ 세 가지 사용법</h3>
+    <ul>
+      <li><b>말로</b> — "논문이 안 써져요" → 관련 스킬이 자동 발동</li>
+      <li><b>슬래시로</b> — <code>/paper-study</code> 입력 → 해당 스킬을 직접 지목</li>
+      <li><b>파일과 함께</b> — "이 폴더의 draft.md 읽고 심사해줘"처럼 파일 이름을 지목</li>
+    </ul>
+  </div>
+  <div class="tip"><b>습관 하나:</b> 세션을 마칠 때 "오늘 한 것 정리해서 연구일지.md에 추가해줘"라고 말해 두면, 다음 세션에서 "연구일지 읽고 이어서 하자"로 맥락을 되살릴 수 있습니다.</div>
+</section>
+
+<section id="m1">
+  <h2 class="sec"><span class="n">01</span>주제가 안 잡힐 때<span class="chip t">paper-writing-order</span></h2>
+  <div class="card">
+    <div class="say">/paper-writing-order
+논문을 시작해야 하는데 주제를 몇 달째 못 정하고 있어요. 관심 분야는 다문화 청소년의 인권교육이에요.</div>
+    <div class="re">"완벽한 주제"를 요구하지 않습니다. 대신 ① 넓은 키워드를 함께 확정하고 ② 핵심 논문 2~3편을 골라 발췌독을 시키고 ③ 모은 인용문을 한계/모순/패턴으로 분류하게 안내합니다 — 연구 질문은 이 3분류에서 "발견"됩니다. 대화가 몇 차례 오가는 코칭이므로 30분~1시간을 잡으세요.</div>
+    <p>이미 초안이 있다면:</p>
+    <div class="say">/paper-writing-order 진단 모드로. 제 서론 초안(intro-draft.md)이 왜 막히는지 봐줘.</div>
+  </div>
+</section>
+
+<section id="m2">
+  <h2 class="sec"><span class="n">02</span>선행연구 수집 주간<span class="chip t">keris → Zotero → zotero 스킬</span></h2>
+  <div class="card">
+    <h3>① 국내 문헌 훑기</h3>
+    <div class="say">다문화 청소년 인권교육 관련 최근 5년 국내 박사학위논문과 KCI 논문을 검색해서, 제목·저자·연도·학교(학술지)를 표로 만들어줘. 내 주제와 겹치는 정도도 상·중·하로 표시해줘.</div>
+    <div class="re">keris-academic-search 스킬이 RISS를 검색해 표로 정리합니다. "겹침 상" 논문은 주제 차별화를 위해 반드시 읽어야 할 목록입니다.</div>
+  </div>
+  <div class="card">
+    <h3>② 국외 문헌 대량 수집</h3>
+    <div class="say">OpenAlex에서 "multicultural education" AND "human rights" 2019년 이후 논문을 수집해서 연도별 편수 추이와 피인용 상위 20편을 CSV로 저장해줘.</div>
+    <div class="re">pyalex로 수집해 CSV를 만들어 줍니다. 상위 논문은 Zotero에 담을 후보가 됩니다.</div>
+  </div>
+  <div class="card">
+    <h3>③ Zotero에 담기 (손으로, 5초씩)</h3>
+    <p>브라우저에서 논문 페이지를 열고 Zotero Connector 버튼을 누르면 서지+PDF가 저장됩니다. 컬렉션(예: "1장 이론적배경")으로 분류만 해 두세요.</p>
+  </div>
+  <div class="card">
+    <h3>④ 주간 건강검진</h3>
+    <div class="say">/zotero diag — 이번 주에 모은 문헌 중 인용 가능한 게 몇 편이고, 저자나 연도가 빠진 항목이 뭔지 알려줘.</div>
+    <div class="re">라이브러리를 스캔해 "전체 N건 중 인용 가능 M건, 결손 목록"을 보여줍니다. 결손은 Zotero에서 우클릭 → "PDF 메타데이터 가져오기"로 대부분 복구됩니다.</div>
+  </div>
+  <div class="note">체계적 문헌고찰(PRISMA)이 목적이면 이 자유 검색 방식이 아니라 <code>/ars-lit-review</code>로 검색식·포함배제 기준을 먼저 세우세요. 재현 가능해야 심사를 통과합니다.</div>
+</section>
+
+<section id="m3">
+  <h2 class="sec"><span class="n">03</span>논문 한 편 제대로 공부하기<span class="chip t">paper-study</span></h2>
+  <div class="card">
+    <div class="say">/paper-study 이 논문 같이 공부하자: Banks-2021-multicultural.pdf. 위키 폴더는 문서\논문_wiki 야.</div>
+    <div class="re">Claude가 논문을 읽고 <b>여러분에게 질문합니다</b>: "이 연구가 반박하는 기존 관점은 무엇인가요?", "방법론의 가장 큰 한계를 하나 꼽는다면?" 답을 하고, 마지막에 자기 말로 3문장 재설명을 하면 — 그 재설명, 질문·답, "내 논문 적용 아이디어"가 담긴 노트가 <code>논문_wiki/papers/</code>에 저장되고 관련 개념 노트와 [[링크]]로 연결됩니다.</div>
+    <p>빠른 스캔이 필요할 때(읽을지 말지 판단):</p>
+    <div class="say">/ars-3w Kim-2023.pdf — 왜/어떻게/무엇을 3축으로만 요약해줘</div>
+  </div>
+  <div class="tip">기준: <b>뼈대 논문(핵심 20~40편)은 paper-study로, 스치는 논문은 /ars-3w로.</b> 전부 정독하려는 완벽주의가 박사과정을 늦춥니다.</div>
+</section>
+
+<section id="m4">
+  <h2 class="sec"><span class="n">04</span>장(章) 초안 쓰기<span class="chip t">wiki-recall → ars-outline → ars-full</span></h2>
+  <div class="card">
+    <h3>① 축적된 지식 회수</h3>
+    <div class="say">2장 이론적 배경을 시작하려고 해. 논문_wiki에서 '다문화주의', '인권교육', '비판적 교육학' 관련 노트를 모아서 요약해줘.</div>
+  </div>
+  <div class="card">
+    <h3>② 개요 → 초안</h3>
+    <div class="say">/ars-outline 2장 이론적 배경. 구조는 ①다문화교육 이론의 전개 ②인권교육 접근 ③두 흐름의 통합 논의. 각 절에 들어갈 근거 문헌은 위 노트에서.</div>
+    <div class="re">절별 논증 구조와 어떤 주장에 어떤 문헌이 붙는지의 증거 지도를 만듭니다. 검토·수정 후:</div>
+    <div class="say">/ars-full 이 개요대로 초안을 쓰되, 각 단계마다 멈추고 내 확인을 받아줘. 인용은 [@citekey] 형식으로.</div>
+    <div class="re">사람이 각 절을 승인하며 진행하는 human-in-the-loop 집필. 인용은 citekey로 들어가므로 나중에 Pandoc 변환 시 자동으로 참고문헌이 붙습니다.</div>
+  </div>
+  <div class="card">
+    <h3>③ Word로 내보내기</h3>
+    <pre>pwsh -File "문서\paper-toolkit\pandoc\convert.ps1" 2장-초안.md</pre>
+    <div class="re">Zotero 인용이 살아있는 docx가 다운로드 폴더에 생깁니다. Word에서 Zotero 탭 → Refresh.</div>
+  </div>
+  <div class="note"><b>윤리 경계:</b> /ars-full이 만든 초안은 "말로 옮겨진 내 개요"입니다. 반드시 자기 문장으로 고쳐 쓰고, 모든 인용의 원문을 직접 확인하세요. 7절의 인용 검증을 건너뛰면 안 됩니다.</div>
+</section>
+
+<section id="m5">
+  <h2 class="sec"><span class="n">05</span>설문 데이터 분석<span class="chip t">KBG PAPER_A</span></h2>
+  <div class="card">
+    <ol>
+      <li><code>문서\paper-toolkit\tools\KBG-PAPER-A.html</code>을 더블클릭(브라우저에서 열림)</li>
+      <li>"예제 데이터" 버튼으로 화면 구성을 먼저 익힌 뒤, 내 설문 CSV를 붙여넣기</li>
+      <li>문항 접두사(예: SE1~SE5, TR1~TR4)로 잠재변수가 자동 구성됨 — 이름만 확인</li>
+      <li>경로를 그리고 부트스트랩 실행 → 신뢰도·타당도·경로계수·매개·조절 표가 생성</li>
+      <li>"국문 결과 서술 복사" → 논문 4장에 붙여넣고 <b>수치를 원표와 대조</b></li>
+    </ol>
+    <p>판정 기준(AVE ≥ .5, HTMT &lt; .85 등)이 헷갈리면 동봉된 <code>KBG-PAPER-A-manual.html</code>의 치트시트를 보세요. 일반 통계는 Claude에게 직접:</p>
+    <div class="say">survey.csv 읽고 기술통계, 신뢰도(Cronbach α), 성별 t검정 돌려서 APA 표로 만들어줘. 사용한 코드도 보여줘.</div>
+  </div>
+</section>
+
+<section id="m6">
+  <h2 class="sec"><span class="n">06</span>퇴고 파이프라인<span class="chip t">humanize → spell-check → count</span></h2>
+  <div class="card">
+    <p>순서가 중요합니다 — 큰 것에서 작은 것으로:</p>
+    <ol>
+      <li><b>AI 티 제거</b> — <span class="say" style="display:block">/humanize 2장-초안.md — 내용은 그대로 두고 문체만. strict로.</span>기계적 병렬·번역투·피동 남용이 걷힌 버전과 무엇을 왜 바꿨는지 목록이 나옵니다.</li>
+      <li><b>사람 손 퇴고</b> — 자기 문장으로 고쳐 쓴 뒤, 필요하면 <code>/toego-korean</code>으로 구조→문단→문장 점검</li>
+      <li><b>맞춤법</b> — <span class="say" style="display:block">/korean-spell-check 2장-수정.md — 바뀐 곳만 보여줘</span></li>
+      <li><b>양식 요건</b> — <span class="say" style="display:block">/korean-character-count 초록.md — 공백 포함/제외 글자수. 학교 규정은 국문 800자 이내야.</span></li>
+    </ol>
+  </div>
+</section>
+
+<section id="m7">
+  <h2 class="sec"><span class="n">07</span>투고·심사 전 최종 점검<span class="chip t">3중 방어선</span></h2>
+  <div class="card">
+    <h3>① 형식 — 보고 가이드라인</h3>
+    <div class="say">/reporting-guideline-router 내 연구는 혼합방법(설문 + 심층면접)이야. 어떤 가이드라인으로 점검해야 해? 그 체크리스트로 원고(full-draft.md) 점검해줘.</div>
+  </div>
+  <div class="card">
+    <h3>② 인용 — 무결성 검사</h3>
+    <div class="say">/ars-citation-check full-draft.md — 본문 인용과 참고문헌 목록 대조, 형식 오류, DOI 확인.</div>
+    <div class="re">본문에만 있고 목록에 없는 인용(또는 그 반대), 연도 불일치, 깨진 DOI를 잡아냅니다.</div>
+  </div>
+  <div class="card">
+    <h3>③ 내용 — 모의 심사</h3>
+    <div class="say">/paper-critical-review full-draft.md — Reviewer 2 관점에서 사정없이. 특히 방법론과 선행연구 방어선을 공격해줘.</div>
+    <div class="re">Major/Minor 지적 목록과 종합 판정이 나옵니다. 지적마다 "수용해 고칠 것 / 반박 논리를 준비할 것"을 분류해 두면 실제 심사 대비가 됩니다. 심사(디펜스) 직전에는 <code>/ars-reviewer</code>로 다관점 심사위원단 시뮬레이션을 1회 돌리세요(무겁습니다).</div>
+  </div>
+</section>
+
+<section id="m8">
+  <h2 class="sec"><span class="n">08</span>심사평 받은 뒤<span class="chip t">ars-revision-coach</span></h2>
+  <div class="card">
+    <div class="say">/ars-revision-coach 심사평.pdf 읽고: ①지적을 항목별로 분해 ②수정 로드맵(무엇을 어느 장에서) ③심사위원별 답변서 골격을 만들어줘.</div>
+    <div class="re">감정이 상하기 쉬운 심사평을 작업 목록으로 바꿔 줍니다. 답변서는 "지적 요지 — 수정 내용 — 수정 위치" 3열 골격으로 나오며, 내용은 여러분이 채웁니다.</div>
+  </div>
+</section>
+
+<section id="m9">
+  <h2 class="sec"><span class="n">09</span>HWP 제출본 만들기<span class="chip t">kordoc · mohwp</span></h2>
+  <div class="card">
+    <div class="say">학회 투고 양식(template.hwpx)에 내 원고(final.md)를 채워서 새 HWPX로 만들어줘. 표는 서식 유지하고.</div>
+    <div class="re">kordoc이 변환·양식 채우기를, mohwp가 서식 보존 편집을 수행합니다. 결과물을 한컴오피스에서 열어 쪽나눔·각주 위치만 최종 확인하세요.</div>
+    <p>스캔 자료 디지털화가 필요할 때:</p>
+    <pre>ocrmypdf -l kor 스캔본.pdf 검색가능.pdf</pre>
+    <p>또는 Umi-OCR을 열어 "배치 문서" 탭에 PDF를 끌어넣기 → md로 추출 → paper-study 입력으로.</p>
+  </div>
+</section>
+
+<section id="mf">
+  <h2 class="sec"><span class="n">FAQ</span>자주 묻는 질문</h2>
+  <div class="tblwrap"><table>
+    <tr><th>질문</th><th>답</th></tr>
+    <tr><td>스킬이 자동으로 발동 안 해요</td><td>슬래시로 직접 부르세요(<code>/paper-study</code>). 그래도 없으면 Claude Code를 재시작하고, "설치된 스킬 목록 보여줘"로 확인.</td></tr>
+    <tr><td>Claude가 만든 인용을 믿어도 되나요</td><td><b>아니요.</b> 모든 인용은 원문을 직접 확인하는 것이 원칙입니다. /ars-citation-check는 "형식·존재" 검사이지 "내가 원문을 읽었다"를 대신하지 않습니다.</td></tr>
+    <tr><td>AI 사용을 논문에 밝혀야 하나요</td><td>대학원·학술지 규정을 따르세요. 도구 사용 내역(검색·교정·형식 점검 등)을 연구일지에 기록해 두면 어떤 규정에도 대응할 수 있습니다. <code>/ars-disclosure</code>가 공개문 초안을 도와줍니다.</td></tr>
+    <tr><td>긴 문서를 주면 중간에 끊겨요</td><td>장 단위로 나눠 작업하세요. "2장만", "3.2절만"처럼 범위를 좁히는 것이 품질도 좋습니다.</td></tr>
+    <tr><td>Zotero 스킬이 라이브러리를 못 찾아요</td><td>Zotero 데이터 폴더가 기본 위치(<code>내 폴더\Zotero</code>)가 아니면 "데이터 폴더는 D:\Zotero야"라고 알려주세요.</td></tr>
+    <tr><td>비용이 걱정돼요</td><td>일상 작업(코칭·검색·퇴고)은 가볍습니다. 무거운 것은 /ars-full 전체 파이프라인과 /ars-reviewer — 꼭 필요한 시점에만 쓰세요.</td></tr>
+    <tr><td>더 궁금한 게 있어요</td><td>Claude에게 "이 상황엔 어떤 도구를 써야 해?"라고 물어보세요 — 도구 안내 자체도 Claude가 합니다. 그래도 막히면 지도교수에게.</td></tr>
+  </table></div>
+</section>
+
+<footer>PhD Paper Toolkit v1.1 · 2026-09-03 · 함께 보기: 도구 총람(phd-toolkit-guide.html) · 설치 안내서(INSTALL-GUIDE.html)</footer>
+</main>
+</div>
