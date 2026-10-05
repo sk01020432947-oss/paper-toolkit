@@ -35,7 +35,7 @@ import sys
 import tempfile
 from collections import Counter, defaultdict
 
-DEFAULT_DATA_DIR = os.path.expanduser(r"~\Zotero")
+DEFAULT_DATA_DIR = os.path.join(os.path.expanduser("~"), "Zotero")
 NON_BIB = ("attachment", "note", "annotation")
 
 

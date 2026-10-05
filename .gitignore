@@ -1,5 +1,8 @@
-__pycache__/
 *.pyc
-pandoc/My Library.yaml
+.DS_Store
 .DS_Store
 Thumbs.db
+__pycache__/
+__pycache__/
+pandoc/My Library.yaml
+skills/kci-journal-finder/data/

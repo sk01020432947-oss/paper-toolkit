@@ -62,5 +62,5 @@ description: "논문 투고 직전, reporting guideline(CONSORT·STROBE·PRISMA�
 
 ## 참고
 
-- 정본 안내서: `%USERPROFILE%\Documents\reporting-guideline-router.html`
+- 정본 안내서: `~/Documents/reporting-guideline-router.html`
 - EQUATOR Network: https://www.equator-network.org/reporting-guidelines/

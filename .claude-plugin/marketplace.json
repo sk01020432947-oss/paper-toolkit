@@ -3,13 +3,13 @@
   "owner": {
     "name": "sk01020432947-oss"
   },
-  "description": "논문 연구·집필 도구 묶음 — 기획·학습·심사·서지(Zotero)·RISS 검색·보고 가이드라인·퇴고(humanize/toego)·HWPX·법령·NotebookLM 스킬 19종 + 에이전트 7종",
+  "description": "논문 연구·집필 도구 묶음 — 기획·학습·심사·서지(Zotero)·RISS 검색·보고 가이드라인·퇴고(humanize/toego)·HWPX·법령·NotebookLM 스킬 20종 + 에이전트 7종",
   "plugins": [
     {
       "name": "paper-toolkit",
       "source": "./",
-      "description": "논문 스킬 19종(paper-* 3, zotero, ref-toolkit, humanize 3, toego-korean, wiki-recall, weekly-review, korean-law-search, hwpx-mouseco, read-hwp, notebooklm, keris-academic-search, reporting-guideline-router, korean-spell-check, korean-character-count) + humanize 에이전트 7종",
-      "version": "1.1.0"
+      "description": "논문 스킬 20종(paper-* 3, zotero, ref-toolkit, humanize 3, toego-korean, wiki-recall, weekly-review, korean-law-search, hwpx-mouseco, read-hwp, notebooklm, keris-academic-search, kci-journal-finder, reporting-guideline-router, korean-spell-check, korean-character-count) + humanize 에이전트 7종",
+      "version": "1.2.0"
     }
   ]
 }

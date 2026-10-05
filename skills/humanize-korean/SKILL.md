@@ -82,12 +82,12 @@ v1.1 5인 파이프라인 그대로. 검증 분리·재윤문 루프가 의미 �
 ### Phase B: 윤문 (최대 3회 루프)
 `korean-style-rewriter` 호출 → `03_rewrite.md` + `03_rewrite_diff.json`
 
-### Phase C: 병렬 검증 (에이전트 팀)
-`TeamCreate`로 `humanize-review-team` 구성:
+### Phase C: 병렬 검증 (서브에이전트 위임)
+두 검증자는 서로 대화할 필요 없이 결과만 돌려주므로, 한 메시지에서 `Agent`를 2회 병렬 호출한다(`subagent_type`에 아래 이름 지정):
 - `content-fidelity-auditor` → `04_fidelity_audit.json` (의미 동등성)
 - `naturalness-reviewer` → `05_naturalness_review.json` (잔존·과윤문)
 
-`TeamDelete` 후 종합 판정 매트릭스에 따라 분기:
+두 결과 파일이 모두 생기면 종합 판정 매트릭스에 따라 분기:
 
 | fidelity | naturalness | 종합 | 후속 |
 |---|---|---|---|
@@ -138,7 +138,7 @@ v1.1 5인 파이프라인 그대로. 검증 분리·재윤문 루프가 의미 �
 02_detection.json
     ↓ [korean-style-rewriter]
 03_rewrite.md + 03_rewrite_diff.json
-    ↓ [병렬 팀]
+    ↓ [병렬 서브에이전트 2]
     ├→ [content-fidelity-auditor] → 04_fidelity_audit.json
     └→ [naturalness-reviewer]      → 05_naturalness_review.json
     ↓ [오케스트레이터 종합]
@@ -148,7 +148,7 @@ v1.1 5인 파이프라인 그대로. 검증 분리·재윤문 루프가 의미 �
 
 ## 에이전트 호출 규칙
 
-**모델:** 모두 `model: opus` 통일 (v1.1 베이스라인). 모델 다운그레이드는 v1.4에서 시도했으나 도구 호출 chain이 진짜 병목이라 효과 미미했음.
+**모델:** 모두 `model: opus` 통일 (v1.1 베이스라인 — Harness v2 기준에서도 근거 있는 지정이라 유지). 모델 다운그레이드는 v1.4에서 시도했으나 도구 호출 chain이 진짜 병목이라 효과 미미했음.
 
 **에이전트 정의 위치:** 저장소 루트 `agents/`에 12종 정의(플러그인 컨벤션). Claude Code 탐색 경로:
 1. 플러그인 설치 시 — `humanize-korean` 플러그인이 `agents/`를 번들로 제공(전역).

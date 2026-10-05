@@ -1,6 +1,6 @@
 # Zotero 연구 환경 설정 절차
 
-작성 2026-07-29 · 대상 PC: Windows 11 / Zotero 8.0.4 / 데이터 폴더 `%USERPROFILE%\Zotero`
+작성 2026-07-29 · 대상 PC: Windows 11 / Zotero 8.0.4 / 데이터 폴더 `~/Zotero`
 
 스크립트 연동(`zotlib.py`)은 **추가 설정 없이 이미 작동한다.** 아래는 그 위에 얹는 것들이다.
 
@@ -45,7 +45,7 @@ auth.transliterate.lower + year
 2. **Export Collection…**
 3. Format: **Better BibLaTeX**
 4. **Keep updated 체크** ← 이게 핵심. 빠뜨리면 1회성 내보내기가 된다
-5. 저장 위치: `%USERPROFILE%\Documents\research\refs.bib`
+5. 저장 위치: `~/Documents/research/refs.bib`
 
 이후 Zotero에 문헌을 추가·수정할 때마다 이 파일이 자동 갱신된다.
 대화 중 "참고문헌 상태 봐줘" 하면 이 파일을 직접 읽어 진단할 수 있다.
@@ -132,7 +132,7 @@ https://unpaywall.org/products/extension — 기관 구독이 없을 때 체감 
 
 ```powershell
 $env:PYTHONIOENCODING="utf-8"
-& "C:\Python314\python.exe" "${CLAUDE_PLUGIN_ROOT}\skills\zotero\scripts\zotlib.py" diag
+& "C:\Python314\python.exe" "${CLAUDE_PLUGIN_ROOT}/skills/zotero/scripts/zotlib.py" diag
 ```
 
 `인용 가능` 비율이 목표치다. KCI 등재지 투고를 전제로 하면

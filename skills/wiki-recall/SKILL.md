@@ -17,8 +17,8 @@ description: 설교·논문·강의·저술 준비를 시작할 때, 백지에�
 
 | 저장소 | 인덱스 | 내용 |
 |--------|--------|------|
-| **LLM 위키** | `%USERPROFILE%/DEV/my-llm-wiki/.qmd/index.sqlite` | 정제된 Wiki 페이지 · 원본 자료 · 과거 질의 결과 (571건, 의미검색 가능) |
-| **모선 볼트** | `%USERPROFILE%/DEV/my-llm-wiki/.qmd/mothership.sqlite` | 옵시디언 개인 볼트 — 과거 설교·강의·클리핑 (6,921건). **키워드검색을 쓸 것** |
+| **LLM 위키** | `~/DEV/my-llm-wiki/.qmd/index.sqlite` | 정제된 Wiki 페이지 · 원본 자료 · 과거 질의 결과 (571건, 의미검색 가능) |
+| **모선 볼트** | `~/DEV/my-llm-wiki/.qmd/mothership.sqlite` | 옵시디언 개인 볼트 — 과거 설교·강의·클리핑 (6,921건). **키워드검색을 쓸 것** |
 
 > [!warning] `--index` 를 반드시 붙인다
 > 빠뜨리면 현재 폴더의 없는 인덱스를 보고 `문서 0건` 으로 나온다.
@@ -47,8 +47,8 @@ description: 설교·논문·강의·저술 준비를 시작할 때, 백지에�
 ### 2. 두 저장소를 모두 검색한다
 
 ```bash
-W="%USERPROFILE%/DEV/my-llm-wiki/.qmd/index.sqlite"
-M="%USERPROFILE%/DEV/my-llm-wiki/.qmd/mothership.sqlite"
+W="~/DEV/my-llm-wiki/.qmd/index.sqlite"
+M="~/DEV/my-llm-wiki/.qmd/mothership.sqlite"
 
 # LLM 위키 — 의미검색. 자연어 문장 그대로 물어도 된다
 qmd --index "$W" search "앞이 안 보이는 사람을 돕는 기기" -n 5
@@ -122,7 +122,7 @@ qmd --index "$W" fts "요한복음 3장" -n 5
 볼트 커맨드(`/query`, `/ingest`)는 **클로드 코드를 볼트 폴더에서 실행할 때** 쓸 수 있다:
 
 ```bash
-cd %USERPROFILE%/DEV/my-llm-wiki
+cd ~/DEV/my-llm-wiki
 ```
 
 밖에서 작업했다면 나중에 볼트에서 `/reindex` 를 한 번 돌린다 — 자동 색인 훅은 볼트를 프로젝트 폴더로 열었을 때만 작동한다.

@@ -31,7 +31,7 @@ date -d "7 days ago" +"%Y-%m-%d"  # 주간 회고 기준일
 ### 2-1. 세션 로그 — 무엇을 했는가
 
 ```
-%USERPROFILE%/DEV/my-llm-wiki/30. Queries/session-log.md
+~/DEV/my-llm-wiki/30. Queries/session-log.md
 ```
 
 기간 내 `## [YYYY-MM-DD HH:MM]` 엔트리를 읽는다. 각 엔트리의 **한 것 / 판단 / 남은 것**이 회고의 뼈대다.
@@ -40,7 +40,7 @@ date -d "7 days ago" +"%Y-%m-%d"  # 주간 회고 기준일
 ### 2-2. 볼트 변경 이력
 
 ```bash
-cd "%USERPROFILE%/DEV/my-llm-wiki"
+cd ~/"DEV/my-llm-wiki"
 git log --since="7 days ago" --oneline
 git diff --stat @{7.days.ago} 2>/dev/null | tail -5
 ```
@@ -65,7 +65,7 @@ find "C:/obsidian(종합j/Obsidian 2025" -name "*.md" -newermt "7 days ago" 2>/d
 ```bash
 for d in "설교연구소" "WisdomPress" "PaperLab"; do
   echo "=== $d ==="
-  find "%USERPROFILE%/$d" -name "*.md" -newermt "7 days ago" 2>/dev/null | head -10
+  find ~/"$d" -name "*.md" -newermt "7 days ago" 2>/dev/null | head -10
 done
 ```
 
@@ -73,7 +73,7 @@ done
 
 ## 3. 7 재활용 축으로 분류한다
 
-축의 단일 진실 원천은 `%USERPROFILE%/DEV/my-llm-wiki/Core Context.md` §2 다. **먼저 읽고** 최신 축 정의를 쓴다.
+축의 단일 진실 원천은 `~/DEV/my-llm-wiki/Core Context.md` §2 다. **먼저 읽고** 최신 축 정의를 쓴다.
 
 | # | 축 | 신호가 되는 경로 |
 |:-:|----|----------------|
@@ -122,7 +122,7 @@ done
 ## 5. 저장한다
 
 ```
-%USERPROFILE%/DEV/my-llm-wiki/30. Queries/YYYY-MM-DD-review-weekly.md
+~/DEV/my-llm-wiki/30. Queries/YYYY-MM-DD-review-weekly.md
 ```
 
 frontmatter 는 볼트 스키마를 따른다 — **YAML 은 공백 2칸, 본문은 TAB**:

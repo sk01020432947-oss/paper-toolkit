@@ -1,6 +1,6 @@
 ---
 name: zotero
-description: 사용자의 로컬 Zotero 라이브러리(%USERPROFILE%\Zotero)를 직접 조회·진단·내보내기 하는 스킬. 논문 연구 중 "내 조테로에서 찾아줘", "참고문헌 몇 편이야", "서지정보 진단", "BibTeX 뽑아줘", "그 논문 PDF 읽어줘", "중복 정리", "메타데이터 없는 PDF", "인용 가능한지 확인", "참고문헌 목록 만들어줘", "KCI 기준 충족하는지" 같은 요청이 나오거나, 사용자가 자기 서재/라이브러리/조테로/Zotero를 언급하며 문헌을 찾거나 참고문헌 작업을 할 때 발동한다. 논문 집필(paper-writing-order), 논문 학습(paper-study), 논문 심사(paper-critical-review) 스킬과 함께 쓰인다. 읽기 전용이므로 사용자의 Zotero 데이터를 손상시키지 않는다.
+description: 사용자의 로컬 Zotero 라이브러리(~/Zotero)를 직접 조회·진단·내보내기 하는 스킬. 논문 연구 중 "내 조테로에서 찾아줘", "참고문헌 몇 편이야", "서지정보 진단", "BibTeX 뽑아줘", "그 논문 PDF 읽어줘", "중복 정리", "메타데이터 없는 PDF", "인용 가능한지 확인", "참고문헌 목록 만들어줘", "KCI 기준 충족하는지" 같은 요청이 나오거나, 사용자가 자기 서재/라이브러리/조테로/Zotero를 언급하며 문헌을 찾거나 참고문헌 작업을 할 때 발동한다. 논문 집필(paper-writing-order), 논문 학습(paper-study), 논문 심사(paper-critical-review) 스킬과 함께 쓰인다. 읽기 전용이므로 사용자의 Zotero 데이터를 손상시키지 않는다.
 ---
 
 # Zotero 로컬 라이브러리 연동
@@ -11,11 +11,11 @@ DB를 임시 폴더로 복사해 읽기 전용으로 열기 때문에 **원본�
 ## 실행 방법
 
 ```
-python "${CLAUDE_PLUGIN_ROOT}\skills\zotero\scripts\zotlib.py" <명령>
+python3 "${CLAUDE_PLUGIN_ROOT}/skills/zotero/scripts/zotlib.py" <명령>
 ```
 
 Windows에서 한글 출력이 깨지면 `$env:PYTHONIOENCODING="utf-8"` 를 먼저 설정한다.
-파이썬은 `C:\Python314\python.exe`.
+파이썬은 맥·리눅스 `python3`, 윈도우 `python`.
 
 ## 명령
 
@@ -45,7 +45,7 @@ PDF를 찾겠다고 파일 시스템을 뒤지지 않는다 — storage 폴더�
 전체 항목 수보다 "인용 가능한 항목 수"(저자·연도·제목이 모두 있는 것)가 실제 답이다.
 
 **BibTeX가 필요할 때**는 Better BibTeX 자동 export 파일이 있으면 그것을 먼저 쓴다
-(`%USERPROFILE%\Documents\research\refs.bib`). 없을 때만 `bib` 명령으로 생성한다.
+(`~/Documents/research/refs.bib`). 없을 때만 `bib` 명령으로 생성한다.
 BBT가 생성한 인용키가 정본이고, 이 스크립트의 키는 대체품이다.
 
 **쓰기 작업은 하지 않는다.** 항목 추가·수정·삭제·병합은 전부 Zotero GUI에서 사용자가 한다.
@@ -56,9 +56,9 @@ BBT가 생성한 인용키가 정본이고, 이 스크립트의 키는 대체품
 서지정보 없는 독립 PDF가 있으면 `zrecover.py`로 후보 메타데이터를 찾는다.
 
 ```
-python "${CLAUDE_PLUGIN_ROOT}\skills\zotero\scripts\zrecover.py" scan       # 대상 목록
-python "${CLAUDE_PLUGIN_ROOT}\skills\zotero\scripts\zrecover.py" match -n 40
-python "${CLAUDE_PLUGIN_ROOT}\skills\zotero\scripts\zrecover.py" export -o <폴더>
+python3 "${CLAUDE_PLUGIN_ROOT}/skills/zotero/scripts/zrecover.py" scan       # 대상 목록
+python3 "${CLAUDE_PLUGIN_ROOT}/skills/zotero/scripts/zrecover.py" match -n 40
+python3 "${CLAUDE_PLUGIN_ROOT}/skills/zotero/scripts/zrecover.py" export -o <폴더>
 ```
 
 - 조회 순서는 한글 파일명이면 KCI → Crossref → OpenAlex, 그 외는 Crossref → OpenAlex → KCI.
@@ -69,7 +69,7 @@ python "${CLAUDE_PLUGIN_ROOT}\skills\zotero\scripts\zrecover.py" export -o <폴�
 
 ## 현재 라이브러리 (2026-07-29 실측)
 
-- 데이터 폴더 `%USERPROFILE%\Zotero`, Zotero 8.0.4
+- 데이터 폴더 `~/Zotero`, Zotero 8.0.4
 - 서지 항목 34건 / 그중 **인용 가능 14건(41%)** / 독립 첨부 **270건**
 - 주 연구 컬렉션: `다문화 인권교육 박사학위 논문` (id=4, 서지 22 / 전체 267)
 - 기타 컬렉션: `설교준비`(id=1), `글쓰기`(id=2), `AI논문작성 강의`(id=3)
