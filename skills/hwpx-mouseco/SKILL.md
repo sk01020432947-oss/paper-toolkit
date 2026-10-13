@@ -106,7 +106,9 @@ metadata:
 
 ## 사용 예시
 
-PowerShell에서는 한글 경로와 출력 깨짐을 줄이기 위해 UTF-8 환경을 먼저 잡습니다.
+아래 명령은 이 스킬 폴더(`${CLAUDE_SKILL_DIR}`, 글자 그대로 보이면 이 SKILL.md가 있는 폴더)에서 실행합니다. 맥·리눅스는 `python3`, 윈도우는 `python`을 씁니다. 결과물은 사용자의 작업 폴더에 저장하도록 `--output`과 `--out-dir`에 그쪽 경로를 줍니다.
+
+윈도우 PowerShell에서는 한글 경로와 출력 깨짐을 줄이기 위해 UTF-8 환경을 먼저 잡습니다.
 
 ```powershell
 $env:PYTHONUTF8='1'; $env:PYTHONIOENCODING='utf-8'; chcp 65001 > $null
@@ -114,20 +116,20 @@ $env:PYTHONUTF8='1'; $env:PYTHONIOENCODING='utf-8'; chcp 65001 > $null
 
 템플릿 분석:
 
-```powershell
-python scripts/inspect_hwpx.py "templates\붙임1 보고서 양식_배포용_원페이퍼.hwpx" --out-dir output\onepager_inspection
+```bash
+python3 scripts/inspect_hwpx.py "templates/붙임1 보고서 양식_배포용_원페이퍼.hwpx" --out-dir output/onepager_inspection
 ```
 
 보고서 생성:
 
-```powershell
-python scripts/create_hwpx_report.py --input examples\public_ai_adoption_report.json --template "templates\붙임1 보고서 양식_배포용_원페이퍼.hwpx" --output output\report.hwpx
+```bash
+python3 scripts/create_hwpx_report.py --input examples/public_ai_adoption_report.json --template "templates/붙임1 보고서 양식_배포용_원페이퍼.hwpx" --output output/report.hwpx
 ```
 
 생성물 검증:
 
-```powershell
-python scripts/create_hwpx_report.py --validate-only output\report.hwpx
+```bash
+python3 scripts/create_hwpx_report.py --validate-only output/report.hwpx
 ```
 
 ---

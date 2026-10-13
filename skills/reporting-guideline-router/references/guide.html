@@ -1,0 +1,282 @@
+<title>Reporting Guideline Router</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;700&family=IBM+Plex+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --paper: #F7F6F2;
+    --card: #FFFFFF;
+    --ink: #23252B;
+    --muted: #6E7076;
+    --line: #DDDAD2;
+    --pen: #93313E;        /* 심사자 빨간펜 */
+    --pen-soft: #F3E4E6;
+    --ok: #2E7D5B;
+    --ok-soft: #E3EFE9;
+    --na: #A9762B;
+    --na-soft: #F4ECDD;
+    --mono-bg: #2A2C33;
+    --mono-ink: #E8E6DF;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #1B1C20;
+      --card: #232529;
+      --ink: #E8E6DF;
+      --muted: #9A9CA3;
+      --line: #3A3C42;
+      --pen: #D4737F;
+      --pen-soft: #3A272B;
+      --ok: #6DBB97;
+      --ok-soft: #24332C;
+      --na: #D0A45C;
+      --na-soft: #363023;
+      --mono-bg: #17181B;
+      --mono-ink: #DDDBD4;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #1B1C20;
+    --card: #232529;
+    --ink: #E8E6DF;
+    --muted: #9A9CA3;
+    --line: #3A3C42;
+    --pen: #D4737F;
+    --pen-soft: #3A272B;
+    --ok: #6DBB97;
+    --ok-soft: #24332C;
+    --na: #D0A45C;
+    --na-soft: #363023;
+    --mono-bg: #17181B;
+    --mono-ink: #DDDBD4;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "IBM Plex Sans KR", "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    font-size: 16px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 56px 24px 96px; }
+  .eyebrow {
+    font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--pen); font-weight: 700; margin-bottom: 14px;
+  }
+  h1 {
+    font-family: "Noto Serif KR", serif;
+    font-size: clamp(28px, 5vw, 40px);
+    font-weight: 700; line-height: 1.3; margin: 0 0 10px;
+    text-wrap: balance;
+  }
+  .lede { color: var(--muted); font-size: 17px; margin: 0 0 8px; max-width: 40em; }
+  .meta { font-size: 13px; color: var(--muted); margin-bottom: 48px; }
+  .meta a { color: var(--muted); }
+
+  h2 {
+    font-family: "Noto Serif KR", serif;
+    font-size: 23px; font-weight: 700; line-height: 1.4;
+    margin: 64px 0 16px; padding-top: 24px;
+    border-top: 1px solid var(--line);
+    text-wrap: balance;
+  }
+  h2 .no {
+    color: var(--pen); font-size: 15px; vertical-align: 0.25em;
+    margin-right: 8px; letter-spacing: .05em;
+  }
+  p { margin: 0 0 16px; max-width: 42em; }
+  strong { font-weight: 700; }
+  em { font-style: normal; box-shadow: inset 0 -0.45em var(--pen-soft); }
+
+  .thesis {
+    background: var(--card); border: 1px solid var(--line);
+    padding: 22px 26px; margin: 32px 0;
+    font-family: "Noto Serif KR", serif; font-size: 19px; line-height: 1.7;
+    font-weight: 600;
+  }
+  .thesis::before {
+    content: "핵심 명제";
+    display: block;
+    font-family: "IBM Plex Sans KR", sans-serif;
+    font-size: 11px; font-weight: 700; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--pen);
+    margin-bottom: 10px;
+  }
+  .thesis .sub { display: block; font-family: "IBM Plex Sans KR", sans-serif; font-size: 14px; font-weight: 400; color: var(--muted); margin-top: 10px; }
+
+  .vs { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0; }
+  @media (max-width: 620px) { .vs { grid-template-columns: 1fr; } }
+  .vs .col { background: var(--card); border: 1px solid var(--line); padding: 18px 20px; }
+  .vs .tag { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 10px; }
+  .vs .bad .tag { color: var(--na); }
+  .vs .good .tag { color: var(--ok); }
+  .vs ul { margin: 0; padding-left: 18px; }
+  .vs li { margin-bottom: 8px; font-size: 15px; }
+  .vs li:last-child { margin-bottom: 0; }
+
+  ol.steps { counter-reset: s; list-style: none; margin: 24px 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+  ol.steps > li {
+    counter-increment: s;
+    background: var(--card); border: 1px solid var(--line);
+    padding: 18px 20px 18px 62px; position: relative;
+  }
+  ol.steps > li::before {
+    content: counter(s);
+    position: absolute; left: 20px; top: 20px;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--pen); color: var(--card);
+    font-weight: 700; font-size: 14px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  ol.steps b { display: block; margin-bottom: 4px; }
+  ol.steps .q { color: var(--muted); font-size: 14.5px; }
+
+  .tablebox { overflow-x: auto; border: 1px solid var(--line); background: var(--card); margin: 24px 0; }
+  table { border-collapse: collapse; width: 100%; min-width: 640px; font-size: 14px; }
+  th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); background: color-mix(in srgb, var(--card) 60%, var(--paper)); white-space: nowrap; }
+  tr:last-child td { border-bottom: none; }
+  td b { white-space: nowrap; }
+  .pill { display: inline-block; font-size: 12px; font-weight: 700; padding: 1px 9px; border-radius: 999px; white-space: nowrap; }
+  .pill.ok { background: var(--ok-soft); color: var(--ok); }
+  .pill.na { background: var(--na-soft); color: var(--na); }
+  .pill.pen { background: var(--pen-soft); color: var(--pen); }
+
+  pre.prompt {
+    background: var(--mono-bg); color: var(--mono-ink);
+    font-family: "IBM Plex Mono", monospace; font-size: 13.5px; line-height: 1.7;
+    padding: 20px 22px; overflow-x: auto; margin: 20px 0;
+    white-space: pre-wrap; word-break: keep-all;
+  }
+  pre.prompt .c { color: #8B8E97; }
+
+  .note {
+    background: var(--na-soft); border: 1px solid color-mix(in srgb, var(--na) 30%, transparent);
+    padding: 14px 18px; font-size: 14.5px; margin: 20px 0; color: var(--ink);
+  }
+  .note b { color: var(--na); }
+
+  .skillbox {
+    background: var(--ok-soft); border: 1px solid color-mix(in srgb, var(--ok) 30%, transparent);
+    padding: 18px 20px; margin: 24px 0; font-size: 15px;
+  }
+  .skillbox code {
+    font-family: "IBM Plex Mono", monospace; font-size: 13.5px;
+    background: var(--card); border: 1px solid var(--line); padding: 1px 6px;
+  }
+  a { color: var(--pen); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  footer { margin-top: 72px; padding-top: 20px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+/* layout-fix: 한글 어절 단위 줄바꿈 */
+body{word-break:keep-all;overflow-wrap:break-word}
+pre,code{word-break:normal}
+</style>
+
+<div class="wrap">
+  <div class="eyebrow">Reporting Plan, not Checklist Pick</div>
+  <h1>Reporting Guideline Router</h1>
+  <p class="lede">논문 초안을 AI에게 맡기기 전에, 연구 설계와 보고 항목의 대응을 먼저 증명하는 절차.</p>
+  <p class="meta">원문: arxiv.ai Threads 연작 (2026-08-26 수집) · 참고: <a href="https://www.equator-network.org/reporting-guidelines/">EQUATOR Network</a></p>
+
+  <div class="thesis">
+    좋은 guideline 선택은 유명한 checklist를 고르는 일이 아니라,
+    연구 설계와 보고 항목의 대응을 증명하는 일이다.
+    <span class="sub">"이 guideline이 왜 내 연구 설계와 맞는지" 설명하지 못하면, 그것은 reporting plan이 아니라 checklist 선택에 불과하다.</span>
+  </div>
+
+  <h2><span class="no">01</span>왜 문제인가</h2>
+  <p>reporting guideline을 <em>하나만 검색해서 바로 고르면</em>, 연구 설계와 맞지 않는 checklist를 선택할 위험이 있다. RCT용 checklist를 관찰연구에 씌우거나, 양적 연구용 항목을 질적 연구에 강요하는 식이다. 잘못 고른 checklist는 심사에서 "방법 절이 기준 미달"이라는 지적으로 되돌아온다.</p>
+
+  <div class="vs">
+    <div class="col bad">
+      <div class="tag">나쁜 요청</div>
+      <ul>
+        <li>"이 논문에 맞는 reporting guideline을 찾아줘."</li>
+      </ul>
+    </div>
+    <div class="col good">
+      <div class="tag">좋은 요청</div>
+      <ul>
+        <li>"연구 설계와 주요 산출물을 먼저 분류해줘."</li>
+        <li>"후보 guideline의 적용 범위를 비교해줘."</li>
+        <li>"필수 항목과 현재 evidence 위치를 연결해줘."</li>
+        <li>"적용되지 않는 항목의 이유를 남겨줘."</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2><span class="no">02</span>먼저 확인할 것 — 3단계 게이트</h2>
+  <ol class="steps">
+    <li>
+      <b>연구 설계가 먼저 분류됐는가</b>
+      <span class="q">실험/관찰/질적/혼합/리뷰/모형개발 중 무엇이며, 주요 산출물(효과 추정치, 주제 분석, 예측모형 등)은 무엇인가?</span>
+    </li>
+    <li>
+      <b>guideline의 적용 범위가 비교됐는가</b>
+      <span class="q">후보를 2개 이상 놓고 각 guideline이 명시한 scope(대상 설계·산출물)와 내 연구를 대조했는가?</span>
+    </li>
+    <li>
+      <b>각 항목과 manuscript evidence가 연결됐는가</b>
+      <span class="q">필수 항목마다 원고의 어느 절·문단이 근거인지, 없으면 무엇이 빠졌는지, 적용 불가면 왜인지 기록했는가?</span>
+    </li>
+  </ol>
+
+  <h2><span class="no">03</span>저장해둘 프롬프트 — Router 표</h2>
+  <p>AI agent에게 checklist를 바로 고르게 하지 말고, 아래 6열 비교 표를 먼저 만들게 한다.</p>
+  <pre class="prompt"><span class="c"># router 표 프롬프트</span>
+후보 guideline을 다음 열로 비교하는 router 표를 만들어줘.
+
+  1. study design          <span class="c">← 내 연구 설계 분류</span>
+  2. scope                 <span class="c">← guideline이 명시한 적용 범위</span>
+  3. required item         <span class="c">← 필수 보고 항목</span>
+  4. manuscript location   <span class="c">← 원고에서 그 항목의 근거 위치(절·문단)</span>
+  5. missing evidence      <span class="c">← 아직 원고에 없는 근거</span>
+  6. not-applicable reason <span class="c">← 적용 불가 항목과 그 이유</span></pre>
+  <p>표가 완성되면 선택은 자동으로 따라온다 — scope가 맞고, required item 대부분이 manuscript location과 연결되는 guideline이 답이다. <strong>missing evidence 열은 그대로 수정 작업 목록이 되고, not-applicable reason 열은 심사자 대응 근거가 된다.</strong></p>
+
+  <h2><span class="no">04</span>설계별 주요 guideline 카탈로그</h2>
+  <p>EQUATOR Network가 정리한 대표 guideline. 후보를 좁힐 때 출발점으로 쓰되, 반드시 원문 scope 문구와 대조한다.</p>
+  <div class="tablebox">
+    <table>
+      <thead><tr><th>연구 설계</th><th>Guideline</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td>무작위 대조 시험 (RCT)</td><td><b>CONSORT 2025</b></td><td>2025년 개정판. AI 개입이면 CONSORT-AI 확장</td></tr>
+        <tr><td>관찰연구 (코호트·환자대조·단면)</td><td><b>STROBE</b></td><td>설문·2차자료 분석 등 사회과학 관찰설계에도 준용 가능</td></tr>
+        <tr><td>체계적 문헌고찰·메타분석</td><td><b>PRISMA 2020</b></td><td>스코핑 리뷰는 PRISMA-ScR</td></tr>
+        <tr><td>질적 연구</td><td><b>SRQR</b> / <b>COREQ</b></td><td>COREQ는 인터뷰·FGI 특화, SRQR이 더 범용</td></tr>
+        <tr><td>혼합방법 연구</td><td><b>GRAMMS</b></td><td>양적·질적 통합 정당화가 핵심 항목</td></tr>
+        <tr><td>예측모형 개발·검증</td><td><b>TRIPOD+AI</b></td><td>2024년판. 머신러닝 기반 모형 포함</td></tr>
+        <tr><td>진단 정확도 연구</td><td><b>STARD 2015</b></td><td>AI 진단이면 STARD-AI 논의 확인</td></tr>
+        <tr><td>증례 보고</td><td><b>CARE</b></td><td></td></tr>
+        <tr><td>경제성 평가</td><td><b>CHEERS 2022</b></td><td></td></tr>
+        <tr><td>질 개선(QI) 연구</td><td><b>SQUIRE 2.0</b></td><td></td></tr>
+        <tr><td>연구 프로토콜</td><td><b>SPIRIT</b> / <b>PRISMA-P</b></td><td>시험 프로토콜 / 리뷰 프로토콜</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note"><b>사회과학·교육학 투고자 주의:</b> 국내 KCI 저널 다수는 guideline 제출을 의무화하지 않는다. 그래도 방법 절의 투명성 기준으로 checklist를 자체 적용하면 심사 지적을 선제 차단할 수 있고, 국제 저널 전환 시 그대로 재사용된다. 어떤 guideline도 scope가 맞지 않으면 — 예: 담론분석, 법제 비교 — 억지로 채우지 말고 "해당 설계용 guideline 부재"를 확인한 기록 자체를 남긴다.</div>
+
+  <h2><span class="no">05</span>판정 기준 요약</h2>
+  <div class="tablebox">
+    <table>
+      <thead><tr><th>상태</th><th>판정</th><th>다음 행동</th></tr></thead>
+      <tbody>
+        <tr><td><span class="pill ok">대응 증명됨</span></td><td>scope 일치 + 항목별 evidence 연결 완료</td><td>checklist를 투고 패키지에 포함</td></tr>
+        <tr><td><span class="pill na">근거 부족</span></td><td>scope는 맞으나 missing evidence 존재</td><td>missing 열을 수정 작업 목록으로 전환</td></tr>
+        <tr><td><span class="pill pen">선택 무효</span></td><td>"왜 이 guideline인가"를 설명 못함</td><td>1단계(설계 분류)로 되돌아감</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2><span class="no">06</span>이 절차를 스킬로 쓰기</h2>
+  <div class="skillbox">
+    이 라우팅 절차는 <code>reporting-guideline-router</code> 스킬로 설치되어 있다.
+    논문 원고나 연구 설계를 주고 <strong>"reporting guideline 골라줘"</strong>, <strong>"체크리스트 대응표 만들어줘"</strong>라고 요청하면
+    3단계 게이트 → 6열 router 표 → 판정 순서로 진행된다.
+    paper-writing-order(기획)·paper-critical-review(심사) 스킬과 역할이 분리된, 투고 직전 단계 전담 도구다.
+  </div>
+
+  <footer>
+    출처: arxiv.ai Threads 연작 · EQUATOR Network (equator-network.org) · 정본: Documents\reporting-guideline-router.html · 2026-08-26
+  </footer>
+</div>

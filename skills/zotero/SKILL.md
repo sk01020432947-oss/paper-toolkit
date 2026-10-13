@@ -11,11 +11,11 @@ DB를 임시 폴더로 복사해 읽기 전용으로 열기 때문에 **원본�
 ## 실행 방법
 
 ```
-python3 "${CLAUDE_PLUGIN_ROOT}/skills/zotero/scripts/zotlib.py" <명령>
+python3 "${CLAUDE_SKILL_DIR}/scripts/zotlib.py" <명령>
 ```
 
 Windows에서 한글 출력이 깨지면 `$env:PYTHONIOENCODING="utf-8"` 를 먼저 설정한다.
-파이썬은 맥·리눅스 `python3`, 윈도우 `python`.
+`${CLAUDE_SKILL_DIR}`가 글자 그대로 보이면 이 SKILL.md가 들어 있는 폴더 경로로 바꿔 쓴다. 윈도우에서 `python3`가 없으면 `python`을 쓴다.
 
 ## 명령
 
@@ -34,7 +34,7 @@ Windows에서 한글 출력이 깨지면 `$env:PYTHONIOENCODING="utf-8"` 를 먼
 | `pdf <itemID>` | 해당 항목 PDF의 절대 경로 (→ Read 도구로 바로 읽을 수 있음) |
 | `pdfs [-c ID]` | PDF 전체 경로 목록 |
 
-모든 명령에 `--json` 을 붙이면 기계 판독용 출력이 된다. 결과를 가공해야 할 때 쓴다.
+`--json`을 **명령 이름 앞에** 붙이면 기계 판독용 출력이 된다(예: `zotlib.py --json diag`). 결과를 가공해야 할 때 쓴다.
 
 ## 작업 원칙
 
@@ -45,7 +45,7 @@ PDF를 찾겠다고 파일 시스템을 뒤지지 않는다 — storage 폴더�
 전체 항목 수보다 "인용 가능한 항목 수"(저자·연도·제목이 모두 있는 것)가 실제 답이다.
 
 **BibTeX가 필요할 때**는 Better BibTeX 자동 export 파일이 있으면 그것을 먼저 쓴다
-(`~/Documents/research/refs.bib`). 없을 때만 `bib` 명령으로 생성한다.
+(사용자에게 위치를 묻는다. 예: `~/Documents/research/refs.bib`). 없을 때만 `bib` 명령으로 생성한다.
 BBT가 생성한 인용키가 정본이고, 이 스크립트의 키는 대체품이다.
 
 **쓰기 작업은 하지 않는다.** 항목 추가·수정·삭제·병합은 전부 Zotero GUI에서 사용자가 한다.
@@ -56,9 +56,9 @@ BBT가 생성한 인용키가 정본이고, 이 스크립트의 키는 대체품
 서지정보 없는 독립 PDF가 있으면 `zrecover.py`로 후보 메타데이터를 찾는다.
 
 ```
-python3 "${CLAUDE_PLUGIN_ROOT}/skills/zotero/scripts/zrecover.py" scan       # 대상 목록
-python3 "${CLAUDE_PLUGIN_ROOT}/skills/zotero/scripts/zrecover.py" match -n 40
-python3 "${CLAUDE_PLUGIN_ROOT}/skills/zotero/scripts/zrecover.py" export -o <폴더>
+python3 "${CLAUDE_SKILL_DIR}/scripts/zrecover.py" scan       # 대상 목록
+python3 "${CLAUDE_SKILL_DIR}/scripts/zrecover.py" match -n 40
+python3 "${CLAUDE_SKILL_DIR}/scripts/zrecover.py" export -o <폴더>
 ```
 
 - 조회 순서는 한글 파일명이면 KCI → Crossref → OpenAlex, 그 외는 Crossref → OpenAlex → KCI.
@@ -67,15 +67,11 @@ python3 "${CLAUDE_PLUGIN_ROOT}/skills/zotero/scripts/zrecover.py" export -o <폴
 - 순서상 **Zotero 내장 "PDF 메타데이터 가져오기"를 먼저 돌리게 한 뒤** 남은 것에 쓴다.
   내장 기능은 기존 PDF에 제자리로 메타데이터를 붙이지만, RIS 가져오기는 새 항목을 만든다.
 
-## 현재 라이브러리 (2026-07-29 실측)
+## 서재 상태는 매번 확인한다
 
-- 데이터 폴더 `~/Zotero`, Zotero 8.0.4
-- 서지 항목 34건 / 그중 **인용 가능 14건(41%)** / 독립 첨부 **270건**
-- 주 연구 컬렉션: `다문화 인권교육 박사학위 논문` (id=4, 서지 22 / 전체 267)
-- 기타 컬렉션: `설교준비`(id=1), `글쓰기`(id=2), `AI논문작성 강의`(id=3)
+서재의 항목 수와 컬렉션은 사용자가 정리할 때마다 바뀐다. **답변 전에 항상 `diag`(또는 `stats`, `collections`)를 실행해 지금 상태를 확인**하고, 기억하고 있는 숫자를 그대로 말하지 않는다.
 
-이 수치는 사용자가 정리 작업을 하면 바뀐다. **답변 전 항상 `diag`를 실행해 최신 상태를 확인**하고,
-위 숫자를 그대로 인용하지 않는다.
+데이터 폴더 기본값은 `~/Zotero`다. 설정 파일 `~/.config/paper-toolkit/config.json`에 `zotero_dir`가 있으면 그 값을 쓴다. 다른 폴더를 한 번만 쓸 때는 명령 이름 앞에 `--data-dir <경로>`를 붙인다(예: `zotlib.py --data-dir D:/Zotero stats`).
 
 ## 참고
 

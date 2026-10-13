@@ -12,17 +12,19 @@ description: "KCI 등재지·등재후보지 2,888종에서 투고할 학술지�
 ## 실행
 
 ```bash
-python3 "${CLAUDE_PLUGIN_ROOT:-$HOME/.claude}/skills/kci-journal-finder/scripts/kci.py" --mid 교육학 --grade 등재 --freq-min 4 --extra
-python3 "${CLAUDE_PLUGIN_ROOT:-$HOME/.claude}/skills/kci-journal-finder/scripts/kci.py" -q 상담
-python3 "${CLAUDE_PLUGIN_ROOT:-$HOME/.claude}/skills/kci-journal-finder/scripts/kci.py" --mid 사회복지학 --grad     # 대학원생 감면
-python3 "${CLAUDE_PLUGIN_ROOT:-$HOME/.claude}/skills/kci-journal-finder/scripts/kci.py" --free                       # 게재료·심사료 무료
-python3 "${CLAUDE_PLUGIN_ROOT:-$HOME/.claude}/skills/kci-journal-finder/scripts/kci.py" --id 12292400                # 상세 + KCI 링크
+python3 "${CLAUDE_SKILL_DIR}/scripts/kci.py" --mid 교육학 --grade 등재 --freq-min 4 --extra
+python3 "${CLAUDE_SKILL_DIR}/scripts/kci.py" -q 상담
+python3 "${CLAUDE_SKILL_DIR}/scripts/kci.py" --mid 사회복지학 --grad     # 대학원생 감면
+python3 "${CLAUDE_SKILL_DIR}/scripts/kci.py" --free                       # 게재료·심사료 무료
+python3 "${CLAUDE_SKILL_DIR}/scripts/kci.py" --id 12292400                # 상세 + KCI 링크
 ```
+
+`${CLAUDE_SKILL_DIR}`가 글자 그대로 보이면 이 SKILL.md가 들어 있는 폴더 경로로 바꿔 쓴다. 윈도우에서 `python3`가 없으면 `python`을 쓴다.
 
 옵션: `-q` 이름/영문명/발행기관 · `--major` 대분류 · `--mid` 중분류(부분일치) · `--grade` · `--freq-min N` ·
 `--org 학회|대학부설연구소|일반기관` · `--lang ko|en` · `--extra` 정보 있는 것만 · `--free` · `--grad` ·
 `--sort name|freq|old|new` · `--limit` · `--json` · `--refresh`.
-결과 끝에 같은 조건의 사이트 링크가 붙는다(지도교수·동기에게 그대로 공유 가능).
+결과 끝에 같은 분야·등급 조건의 사이트 링크가 붙는다(지도교수·동기에게 그대로 공유 가능).
 
 ## 절차
 
@@ -45,4 +47,4 @@ python3 "${CLAUDE_PLUGIN_ROOT:-$HOME/.claude}/skills/kci-journal-finder/scripts/
 - **paper-critical-review**: 원고 심사·약점 진단. 투고처를 정한 뒤 그 학술지 규정에 맞춰 넘긴다.
 - **keris-academic-search**: RISS 논문 검색. 학술지 자체가 아니라 논문을 찾을 때.
 
-정리 문서: ~/Desktop/cysjavis/매뉴얼/논문_연구도구/KCI_학술지찾기_정리.html · 원문 블로그: https://blog.naver.com/chamchamtol/224409841320
+원문 블로그: https://blog.naver.com/chamchamtol/224409841320

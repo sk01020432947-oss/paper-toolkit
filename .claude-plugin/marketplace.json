@@ -3,13 +3,13 @@
   "owner": {
     "name": "sk01020432947-oss"
   },
-  "description": "논문 연구·집필 도구 묶음 — 기획·학습·심사·서지(Zotero)·RISS 검색·보고 가이드라인·퇴고(humanize/toego)·HWPX·법령·NotebookLM 스킬 20종 + 에이전트 7종",
+  "description": "논문 연구·집필 도구 묶음 — 점검·설정(paper-start), 기획, 문헌 검색, 학습, 서지(Zotero), 퇴고, 보고 지침, 모의 심사, KCI 투고처, HWPX까지 스킬 21종 + 에이전트 7종",
   "plugins": [
     {
       "name": "paper-toolkit",
       "source": "./",
-      "description": "논문 스킬 20종(paper-* 3, zotero, ref-toolkit, humanize 3, toego-korean, wiki-recall, weekly-review, korean-law-search, hwpx-mouseco, read-hwp, notebooklm, keris-academic-search, kci-journal-finder, reporting-guideline-router, korean-spell-check, korean-character-count) + humanize 에이전트 7종",
-      "version": "1.2.0"
+      "description": "논문 스킬 21종(paper-start, paper-writing-order, paper-study, paper-critical-review, zotero, ref-toolkit, keris-academic-search, kci-journal-finder, reporting-guideline-router, wiki-recall, weekly-review, humanize 3종, toego-korean, korean-spell-check, korean-character-count, korean-law-search, notebooklm, read-hwp, hwpx-mouseco) + humanize 에이전트 7종. 설치 후 /paper-start",
+      "version": "1.3.0"
     }
   ]
 }

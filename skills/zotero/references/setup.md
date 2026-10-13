@@ -50,7 +50,7 @@ auth.transliterate.lower + year
 이후 Zotero에 문헌을 추가·수정할 때마다 이 파일이 자동 갱신된다.
 대화 중 "참고문헌 상태 봐줘" 하면 이 파일을 직접 읽어 진단할 수 있다.
 
-컬렉션이 여러 개면 각각 별도 `.bib`로 내보낸다 (`refs-설교.bib` 등).
+컬렉션이 여러 개면 각각 별도 `.bib`로 내보낸다 (`refs-2장.bib` 등).
 
 ---
 
@@ -132,7 +132,7 @@ https://unpaywall.org/products/extension — 기관 구독이 없을 때 체감 
 
 ```powershell
 $env:PYTHONIOENCODING="utf-8"
-& "C:\Python314\python.exe" "${CLAUDE_PLUGIN_ROOT}/skills/zotero/scripts/zotlib.py" diag
+& "C:\Python314\python.exe" "${CLAUDE_SKILL_DIR}/scripts/zotlib.py" diag
 ```
 
 `인용 가능` 비율이 목표치다. KCI 등재지 투고를 전제로 하면

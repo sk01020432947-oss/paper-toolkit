@@ -1,14 +1,9 @@
 ---
 name: ref-toolkit
-description: 박사논문 레퍼런스 수집 도구 안내·라우팅 스킬. 사용자가 "레퍼런스 수집", "문헌 검색 도구", "Consensus/Elicit/SciSpace 뭐 쓸까", "논문 자료 조사 도구", "레퍼런스 대시보드", "/ref-toolkit"을 요청하면 발동. 상황(질문형 탐색/체계적 고찰/국내 문헌/원문 확보/서지 정리)에 맞는 도구를 추천하고, 레퍼런스 커맨드 센터 대시보드를 안내·갱신한다.
+description: 박사논문 레퍼런스 수집 도구 안내·라우팅 스킬. 사용자가 "레퍼런스 수집", "문헌 검색 도구", "Consensus/Elicit/SciSpace 뭐 쓸까", "논문 자료 조사 도구", "/ref-toolkit"을 요청하면 발동. 상황(질문형 탐색/체계적 고찰/국내 문헌/원문 확보/서지 정리)에 맞는 도구와 순서를 추천한다.
 ---
 
 # ref-toolkit — 레퍼런스 수집 도구 라우터
-
-## 정본 대시보드 (URL 재사용 필수)
-
-- 아티팩트: `artifact-url.txt`의 URL을 **반드시 재사용**해 갱신한다 (신규 발행 금지).
-- 로컬 정본이 필요하면 대시보드 HTML을 Documents에 저장 후 안내.
 
 ## 상황별 라우팅
 
@@ -35,13 +30,12 @@ description: 박사논문 레퍼런스 수집 도구 안내·라우팅 스킬. �
 4. **체계적 고찰은 AI 검색 불가** — 재현성 때문에 본 검색은 Scopus/WoS/RISS, AI는 보조.
 5. **국내·해외 이중 트랙** — 검색어를 따로 설계 (번역어 여러 벌).
 
-## 대시보드 갱신 절차
+## 가격·기능 확인
 
-1. 가격·기능 변동을 WebSearch로 확인 (가격은 "YYYY-MM 기준" 명기).
-2. 대시보드 HTML 수정 (도구 카드는 `data-cat`/`data-kw` 속성 유지 — 필터·검색이 이에 의존).
-3. `artifact-url.txt`의 URL로 재발행 (favicon 📚 유지).
+위 표의 가격과 무료 범위는 2026-08 기준이다. 결제를 권하기 전에 WebSearch로 지금 가격을 확인하고 "YYYY-MM 기준"이라고 밝힌다.
 
-## 연계 자산
+## 이어지는 스킬
 
-- 사용자의 Zotero×Obsidian×Pandoc 파이프라인 구축 완료 (research-pkm-pipeline 메모리 참조).
-- OpenAlex 자동 수집은 AI×복지 위클리 뉴스레터에서 검증된 패턴.
+- 서지를 Zotero에 담은 뒤의 조회·진단은 `zotero` 스킬.
+- 국내 학위논문·학술지 검색 실행은 `keris-academic-search` 스킬.
+- 투고할 학술지 고르기는 `kci-journal-finder` 스킬.

@@ -15,6 +15,7 @@ $root   = $PSScriptRoot
 $claude = Join-Path $env:USERPROFILE '.claude'
 $docs   = [Environment]::GetFolderPath('MyDocuments')
 $dest   = Join-Path $docs 'paper-toolkit'
+$backup = Join-Path $claude ('backup-paper-toolkit-' + (Get-Date -Format 'yyyyMMdd-HHmmss'))
 $done = @(); $skipped = @(); $failed = @()
 function Step($m){ Write-Host "`n== $m" -ForegroundColor Cyan }
 function Ok($m){ Write-Host "   [OK] $m" -ForegroundColor Green;  $script:done += $m }
@@ -29,13 +30,8 @@ New-Item -ItemType Directory -Force -Path $skillDst | Out-Null
 Get-ChildItem (Join-Path $root 'skills') -Directory | ForEach-Object {
     $to = Join-Path $skillDst $_.Name
     if ((Test-Path $to) -and -not $Force) { Skip "스킬 $($_.Name) — 이미 있음(-Force로 덮어쓰기)"; return }
+    if (Test-Path $to) { New-Item -ItemType Directory -Force -Path (Join-Path $backup 'skills') | Out-Null; Move-Item $to (Join-Path $backup "skills\$($_.Name)") -Force }  # 덮어쓰기 전 백업
     Copy-Item $_.FullName $to -Recurse -Force
-    # 원 소유자 PC 경로(%USERPROFILE%) → 현재 사용자 경로로 치환
-    Get-ChildItem $to -Recurse -Include *.md,*.txt,*.json,*.yaml,*.yml,*.ps1 -File | ForEach-Object {
-        $t = [IO.File]::ReadAllText($_.FullName, [Text.Encoding]::UTF8)
-        $n = $t.Replace('%USERPROFILE%', $env:USERPROFILE).Replace('%USERPROFILE%', ($env:USERPROFILE -replace '\\','/')).Replace('~', '/c/Users/' + $env:USERNAME)
-        if ($n -ne $t) { [IO.File]::WriteAllText($_.FullName, $n, (New-Object Text.UTF8Encoding $false)) }
-    }
     Ok "스킬 $($_.Name)"
 }
 
@@ -58,9 +54,8 @@ else {
     foreach ($d in 'tools','pandoc') {
         Copy-Item (Join-Path $root $d) (Join-Path $dest $d) -Recurse -Force; Ok "$d\ 복사"
     }
-    Copy-Item (Join-Path $root 'paper-toolkit-inventory.html') $dest -Force
-    Copy-Item (Join-Path $root 'README.md') $dest -Force
-    Ok 'paper-toolkit-inventory.html (도구 목록·소개)'
+    foreach ($f in 'README.md','MANUAL.md','MANUAL.html') { Copy-Item (Join-Path $root $f) $dest -Force }
+    Ok 'MANUAL.html (사용 설명서)'
 }
 
 # ---------- 4. winget ----------
@@ -106,7 +101,6 @@ elseif (-not (Get-Command claude -ErrorAction SilentlyContinue)) { Fail 'claude 
 else {
     $mcps = @(
         @('kordoc',           '--', 'cmd', '/c', 'npx', '-y', 'kordoc', 'mcp'),
-        @('korean-law',       '--', 'cmd', '/c', 'npx', '-y', 'korean-law-mcp'),
         @('mohwp',            '--', 'mohwp', 'mcp-serve'),
         @('public-data-lens', '--transport', 'http', 'https://service.datahub.kr/projects/public-data-lens/mcp')
     )
@@ -136,13 +130,11 @@ Write-Host @"
 
 ========== 남은 수동 작업 ==========
 [Claude Code 안에서 실행]  (PowerShell에서는 안 됨)
-  /plugin marketplace add sk01020432947-oss/paper-toolkit        ← 이 묶음의 스킬 15종+에이전트 (ZIP 복사 대신 써도 됨)
+  /plugin marketplace add sk01020432947-oss/paper-toolkit        ← 이 묶음의 스킬 21종+에이전트 (ZIP 복사 대신 써도 됨)
   /plugin install paper-toolkit@paper-toolkit
   /plugin marketplace add Imbad0202/academic-research-skills
-  /plugin install academic-research-skills
-  /plugin marketplace add fivetaku/gptaku_plugins
-  /plugin install deep-research
-  (그 뒤 Claude Code 재시작 → /paper-writing-order, /ars-plan, /humanize 등 확인)
+  /plugin install academic-research-skills@academic-research-skills
+  (그 뒤 Claude Code 재시작 → /paper-start 로 점검·설정)
 
 [직접 설치]
   - Ghostscript 10.x (OCRmyPDF 의존): https://github.com/ArtifexSoftware/ghostpdl-downloads/releases
@@ -155,9 +147,10 @@ Write-Host @"
     사용: pwsh -File "$dest\pandoc\convert.ps1" 원고.md
   - 한컴오피스(상용) — HWP 최종 조판 시
 
-[API 키 (환경변수)]  KOSIS_API_KEY · DATA_GO_KR_KEY · 열린국회 API · (선택) KCI_API_KEY · LAW_OC(국가법령)
-[경로 확인]  zotero 스킬은 ~\Zotero 를 기본 데이터 폴더로 봄. 다른 곳이면 SKILL.md 상단 안내대로 --data-dir 지정
-            wiki-recall·weekly-review는 옵시디언 볼트 경로를 SKILL.md에서 본인 볼트로 수정
+[API 키]  (선택) LAW_OC — 국가법령 MCP. open.law.go.kr 에서 발급한 뒤:
+            claude mcp add korean-law -e LAW_OC=<키> -- cmd /c npx -y --ignore-scripts --omit=optional korean-law-mcp@latest
+          (선택) KSKILL_RISS_API_KEY — RISS 검색 · KCI_API_KEY — zotero 메타데이터 복구
+[설정]    Claude Code에서 /paper-start 를 입력하면 논문 폴더·위키 폴더·Zotero 폴더를 한 번에 설정합니다.
 [분석기]  $dest\tools\KBG-PAPER-A.html 을 브라우저로 열면 PLS-SEM 분석기 (매뉴얼 동봉)
-[목록]    $dest\paper-toolkit-inventory.html — 전체 도구 소개
+[설명서]  $dest\MANUAL.html
 "@

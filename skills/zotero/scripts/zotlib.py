@@ -36,6 +36,12 @@ import tempfile
 from collections import Counter, defaultdict
 
 DEFAULT_DATA_DIR = os.path.join(os.path.expanduser("~"), "Zotero")
+try:  # paper-toolkit 공용 설정에 zotero_dir가 있으면 그 값을 기본으로
+    import json as _json
+    with open(os.environ.get("PAPER_TOOLKIT_CONFIG") or os.path.join(os.path.expanduser("~"), ".config", "paper-toolkit", "config.json"), encoding="utf-8") as _f:
+        DEFAULT_DATA_DIR = _json.load(_f).get("zotero_dir") or DEFAULT_DATA_DIR
+except (OSError, ValueError):
+    pass
 NON_BIB = ("attachment", "note", "annotation")
 
 
@@ -44,7 +50,7 @@ NON_BIB = ("attachment", "note", "annotation")
 def open_db(data_dir: str) -> sqlite3.Connection:
     src = os.path.join(data_dir, "zotero.sqlite")
     if not os.path.exists(src):
-        sys.exit(f"[!] zotero.sqlite 없음: {src}")
+        sys.exit(f"[!] zotero.sqlite 없음: {src}\n    Zotero를 설치했는지 확인하세요(zotero.org). 데이터 폴더가 다른 곳이면: zotlib.py --data-dir <폴더> <명령>")
     tmp = os.path.join(tempfile.gettempdir(), "zlib_snapshot.sqlite")
     for suffix in ("", "-wal", "-shm"):
         s = src + suffix

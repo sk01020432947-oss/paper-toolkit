@@ -32,13 +32,17 @@ def load(refresh=False):
         try:
             d = fetch()
             os.makedirs(os.path.dirname(DATA_PATH), exist_ok=True)
-            json.dump(d, open(DATA_PATH, "w"), ensure_ascii=False)
+            tmp_path = DATA_PATH + ".tmp"  # 쓰다 끊겨도 깨진 파일이 남지 않게
+            with open(tmp_path, "w", encoding="utf-8") as f:
+                json.dump(d, f, ensure_ascii=False)
+            os.replace(tmp_path, DATA_PATH)
             return d
         except Exception as e:  # ponytail: 네트워크 실패 시 스냅샷 사용
             if not os.path.exists(DATA_PATH):
                 sys.exit("다운로드 실패: %s" % e)
             print("경고: 갱신 실패, 저장본 사용 (%s)" % e, file=sys.stderr)
-    return json.load(open(DATA_PATH))
+    with open(DATA_PATH, encoding="utf-8") as f:
+        return json.load(f)
 
 
 def rows(d):
@@ -104,6 +108,11 @@ def selftest():
 
 
 def main():
+    for stream in (sys.stdout, sys.stderr):  # 윈도우 콘솔(cp949)에서 한글이 깨지지 않게
+        try:
+            stream.reconfigure(encoding="utf-8")
+        except Exception:
+            pass
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("-q", default="", help="이름·영문명·발행기관 검색")
     ap.add_argument("--major", default="", help="대분류: 사회과학 인문학 의약학 공학 예술체육학 복합학 자연과학 농수해양학")

@@ -55,12 +55,12 @@ description: "논문 투고 직전, reporting guideline(CONSORT·STROBE·PRISMA�
 | QI 연구 | SQUIRE 2.0 | |
 | 프로토콜 | SPIRIT / PRISMA-P | |
 
-## 한국 사회과학·교육학 맥락 (이 사용자의 주 투고처)
+## 한국 사회과학·교육학 맥락
 
 - KCI 저널 다수는 guideline 제출 의무가 없다. 그래도 방법 절 투명성 기준으로 자체 적용을 권하고, "심사 지적 선제 차단 + 국제 저널 전환 시 재사용"을 근거로 설명한다.
 - 담론분석·법제 비교·정책 문서 분석처럼 맞는 guideline이 없는 설계는 억지로 끼워 맞추지 않는다. "해당 설계용 guideline 부재를 확인함"이라는 기록 자체가 reporting plan이다. STROBE 등을 '참고 구조'로만 부분 차용할 수는 있으나 checklist 준수를 주장하지 않게 한다.
 
 ## 참고
 
-- 정본 안내서: `~/Documents/reporting-guideline-router.html`
+- 사람이 읽는 안내서: `${CLAUDE_SKILL_DIR}/references/guide.html` (브라우저로 열어 보라고 안내)
 - EQUATOR Network: https://www.equator-network.org/reporting-guidelines/

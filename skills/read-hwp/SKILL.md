@@ -10,6 +10,8 @@ metadata:
 
 # HWP
 
+> 참고: 아래에 나오는 `rhwp-edit`, `rhwp-advanced`는 이 묶음에 들어 있지 않은 별도 스킬이다(NomaDamas/k-skill에서 받을 수 있다).
+
 ## What this skill does
 
 `kordoc`으로 `.hwp` / `.hwpx` / `.hwpml` 문서를 AI가 읽기 좋은 Markdown 또는 JSON으로 바꾸고,
